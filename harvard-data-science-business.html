@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Science for Business — Self-Study Guide</title>
+  <title>Data Science for Business — Self-Study</title>
   <style>
     :root {
       --crimson: #a51c30;
-      --dark: #1a1a2e;
-      --card: #16213e;
-      --accent: #0f3460;
-      --highlight: #e94560;
-      --text: #e0e0e0;
-      --muted: #9ca3af;
+      --crimson2: #c0392b;
+      --dark: #0f0f1a;
+      --surface: #16213e;
+      --surface2: #1e2a4a;
+      --border: #2a3560;
+      --text: #e8eaf0;
+      --muted: #8892b0;
       --green: #10b981;
-      --yellow: #f59e0b;
       --blue: #3b82f6;
+      --yellow: #f59e0b;
       --purple: #8b5cf6;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,850 +24,734 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
       background: var(--dark);
       color: var(--text);
-      line-height: 1.7;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, #0d0d1a 0%, #1a0a0e 50%, #0d1a2e 100%);
-      border-bottom: 3px solid var(--crimson);
-      padding: 60px 24px 50px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: var(--crimson);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 52px);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .hero h1 span { color: var(--crimson); }
-    .hero p {
-      font-size: 17px;
-      color: var(--muted);
-      max-width: 650px;
-      margin: 0 auto 28px;
-    }
-    .hero-stats {
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .stat { text-align: center; }
-    .stat .num { font-size: 28px; font-weight: 800; color: var(--green); }
-    .stat .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    .saved {
-      margin-top: 20px;
-      display: inline-block;
-      background: rgba(16,185,129,0.12);
-      border: 1px solid var(--green);
-      color: var(--green);
-      padding: 6px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
+      flex-direction: column;
     }
 
-    /* ── LAYOUT ── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-    section { padding: 48px 0; }
-    h2 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 28px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--accent);
+    /* TOP BAR */
+    .topbar {
+      background: #0a0a14;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    h2 .icon { font-size: 22px; }
+    .topbar-brand { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
+    .topbar-brand span { color: var(--crimson); }
+    .topbar-counter { font-size: 12px; color: var(--muted); }
+    .topbar-counter strong { color: var(--text); }
 
-    /* ── ROADMAP ── */
-    .roadmap { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-    .phase {
-      background: var(--card);
-      border-left: 4px solid var(--crimson);
-      border-radius: 8px;
-      overflow: hidden;
+    /* STEP BAR */
+    .step-bar {
+      background: #0a0a14;
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
-    .phase-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.2s;
-    }
-    .phase-header:hover { background: rgba(255,255,255,0.04); }
-    .phase-num {
-      background: var(--crimson);
-      color: #fff;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 14px;
-      flex-shrink: 0;
-    }
-    .phase-title { font-weight: 700; font-size: 16px; flex: 1; }
-    .phase-meta { font-size: 12px; color: var(--muted); }
-    .phase-arrow { transition: transform 0.3s; font-size: 12px; color: var(--muted); }
-    .phase.open .phase-arrow { transform: rotate(90deg); }
-    .phase-body { display: none; padding: 0 20px 20px; }
-    .phase.open .phase-body { display: block; }
-    .phase-body p { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
-
-    /* ── TOPIC CARDS ── */
-    .topic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-    }
-    .topic-card {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 20px;
-      border: 1px solid #2a2a4a;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .topic-card:hover { border-color: var(--crimson); transform: translateY(-2px); }
-    .topic-card h3 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .step-bar::-webkit-scrollbar { display: none; }
+    .step-list { display: flex; align-items: stretch; min-width: max-content; }
+    .step-btn {
       display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      background: none; border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--muted);
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
     }
-    .topic-card p { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-    .resource-links { display: flex; flex-direction: column; gap: 6px; }
-    .resource-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 13px;
-      padding: 7px 10px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 6px;
+    .step-btn:hover { color: var(--text); }
+    .step-btn.active { color: var(--text); border-bottom-color: var(--crimson); }
+    .step-btn.done { color: var(--green); }
+    .step-btn.done.active { border-bottom-color: var(--green); }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; flex-shrink: 0;
       transition: background 0.2s;
     }
-    .resource-link:hover { background: rgba(255,255,255,0.1); }
-    .resource-link .badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 4px;
-      flex-shrink: 0;
-    }
-    .free { background: rgba(16,185,129,0.2); color: var(--green); }
-    .video { background: rgba(239,68,68,0.2); color: #f87171; }
-    .article { background: rgba(59,130,246,0.2); color: #93c5fd; }
-    .tool { background: rgba(139,92,246,0.2); color: #c4b5fd; }
-    .book { background: rgba(245,158,11,0.2); color: #fcd34d; }
+    .step-btn.active .step-num { background: var(--crimson); color: #fff; }
+    .step-btn.done .step-num { background: var(--green); color: #fff; }
 
-    /* ── TOOLS GRID ── */
-    .tools-grid {
+    /* SLIDES */
+    .slides-wrap { flex: 1; overflow: hidden; position: relative; }
+    .slide { display: none; animation: fadeIn 0.35s ease; min-height: calc(100vh - 130px); }
+    .slide.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* OVERVIEW */
+    .overview-hero {
+      background: linear-gradient(135deg, #0a0a14 0%, #130a14 40%, #0a0f20 100%);
+      padding: 56px 24px 40px; text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .pill {
+      display: inline-block; background: var(--crimson); color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; padding: 3px 12px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .overview-hero h1 { font-size: clamp(26px, 4vw, 48px); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+    .overview-hero h1 em { color: var(--crimson); font-style: normal; }
+    .overview-hero p { font-size: 15px; color: var(--muted); max-width: 580px; margin: 0 auto 28px; }
+    .hero-stats { display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; }
+    .hstat .n { font-size: 26px; font-weight: 800; color: var(--green); }
+    .hstat .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    .overview-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px; padding: 32px 24px;
+      max-width: 1100px; margin: 0 auto;
     }
-    .tool-card {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 18px;
-      border: 1px solid #2a2a4a;
-      text-align: center;
+    .ov-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      cursor: pointer; transition: border-color 0.2s, transform 0.2s;
+      display: flex; gap: 14px; align-items: flex-start;
     }
-    .tool-card .t-icon { font-size: 32px; margin-bottom: 10px; }
-    .tool-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-    .tool-card p { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
-    .tool-card a {
-      font-size: 12px;
-      color: var(--blue);
-      text-decoration: none;
-      border: 1px solid var(--blue);
-      padding: 4px 12px;
-      border-radius: 4px;
-      display: inline-block;
+    .ov-card:hover { border-color: var(--crimson); transform: translateY(-2px); }
+    .ov-num {
+      background: var(--crimson); color: #fff;
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; flex-shrink: 0; margin-top: 2px;
     }
-    .tool-card a:hover { background: rgba(59,130,246,0.15); }
+    .ov-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .ov-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .ov-week { font-size: 10px; font-weight: 700; color: var(--crimson); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
 
-    /* ── CHECKLIST ── */
-    .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .checklist li {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--card);
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1px solid #2a2a4a;
-      font-size: 14px;
+    /* STAGE SLIDES */
+    .stage-wrap { max-width: 900px; margin: 0 auto; padding: 40px 24px 32px; }
+    .stage-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--crimson); margin-bottom: 8px; }
+    .stage-title { font-size: clamp(22px, 3.5vw, 36px); font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
+    .stage-desc { font-size: 15px; color: var(--muted); max-width: 680px; line-height: 1.7; }
+    .stage-meta { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+    .meta-chip {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--muted);
     }
-    .checklist li input[type="checkbox"] {
-      width: 18px; height: 18px;
-      accent-color: var(--crimson);
-      flex-shrink: 0;
-      margin-top: 2px;
-      cursor: pointer;
-    }
-    .checklist li label { cursor: pointer; flex: 1; }
-    .checklist li label.done { text-decoration: line-through; color: var(--muted); }
+    .meta-chip strong { color: var(--text); }
 
-    /* ── TIMELINE ── */
-    .timeline { position: relative; padding-left: 28px; }
-    .timeline::before {
-      content: '';
-      position: absolute; left: 8px; top: 0; bottom: 0;
-      width: 2px; background: var(--accent);
+    .resources-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px; margin-top: 24px;
     }
-    .tl-item { position: relative; margin-bottom: 22px; }
-    .tl-dot {
-      position: absolute; left: -24px; top: 4px;
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: var(--crimson);
-      border: 2px solid var(--dark);
+    .res-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+    .res-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+    .res-list { display: flex; flex-direction: column; gap: 7px; }
+    .res-link {
+      display: flex; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--text); font-size: 13px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.03); border-radius: 6px;
+      border: 1px solid transparent; transition: background 0.15s, border-color 0.15s;
     }
-    .tl-week { font-size: 11px; font-weight: 700; color: var(--crimson); text-transform: uppercase; letter-spacing: 1px; }
-    .tl-title { font-weight: 600; font-size: 15px; }
-    .tl-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .res-link:hover { background: rgba(255,255,255,0.08); border-color: var(--border); }
+    .badge { font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; letter-spacing: 0.5px; }
+    .b-free { background: rgba(16,185,129,0.15); color: var(--green); }
+    .b-vid  { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .b-art  { background: rgba(59,130,246,0.15);  color: #93c5fd; }
+    .b-tool { background: rgba(139,92,246,0.15);  color: #c4b5fd; }
+    .b-book { background: rgba(245,158,11,0.15);  color: #fcd34d; }
 
-    /* ── QUOTE ── */
-    .callout {
-      background: rgba(165,28,48,0.1);
-      border-left: 4px solid var(--crimson);
-      padding: 16px 20px;
-      border-radius: 0 8px 8px 0;
-      font-size: 14px;
-      color: var(--muted);
-      margin: 24px 0;
+    .practice-box {
+      margin-top: 20px;
+      background: rgba(165,28,48,0.08); border: 1px solid rgba(165,28,48,0.3);
+      border-radius: 10px; padding: 16px 20px;
     }
-    .callout strong { color: var(--text); }
+    .practice-box h4 { font-size: 12px; font-weight: 700; color: var(--crimson); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .practice-box p { font-size: 13px; color: var(--muted); }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #0d0d1a;
-      border-top: 1px solid #2a2a4a;
-      text-align: center;
-      padding: 28px;
-      font-size: 13px;
-      color: var(--muted);
+    /* CAPSTONE */
+    .capstone-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 24px; }
+    .cap-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .cap-card .cap-n { font-size: 32px; font-weight: 900; color: var(--crimson); opacity: 0.4; line-height: 1; margin-bottom: 8px; }
+    .cap-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .cap-card p { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+    /* TRACKER */
+    .progress-wrap { background: var(--surface2); border-radius: 8px; height: 8px; margin: 8px 0 20px; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--crimson), #e94560); width: 0%; transition: width 0.5s; }
+    .check-list { display: flex; flex-direction: column; gap: 8px; }
+    .check-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px; font-size: 13px;
+      cursor: pointer; transition: border-color 0.2s;
     }
+    .check-item:hover { border-color: var(--crimson); }
+    .check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--crimson); flex-shrink: 0; cursor: pointer; }
+    .check-item label { cursor: pointer; flex: 1; }
+    .check-item label.done { text-decoration: line-through; color: var(--muted); }
 
-    /* ── PROGRESS BAR ── */
-    .progress-wrap { background: #2a2a4a; border-radius: 8px; height: 8px; margin: 8px 0 16px; overflow: hidden; }
-    .progress-bar { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--crimson), var(--highlight)); width: 0%; transition: width 0.5s; }
+    .sep { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      background: #0a0a14; border-top: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; bottom: 0; z-index: 100;
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 20px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nav-btn:hover { background: var(--surface2); border-color: var(--muted); }
+    .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .nav-btn.primary { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+    .nav-btn.primary:hover { background: var(--crimson2); border-color: var(--crimson2); }
+    .nav-btn.play { background: rgba(16,185,129,0.12); border-color: var(--green); color: var(--green); }
+    .nav-btn.play:hover { background: rgba(16,185,129,0.22); }
+    .nav-center { display: flex; align-items: center; gap: 10px; }
+    .progress-dots { display: flex; gap: 5px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.2s, width 0.2s; }
+    .dot.active { background: var(--crimson); width: 18px; border-radius: 3px; }
+    .dot.done { background: var(--green); }
 
     @media (max-width: 600px) {
+      .step-btn .step-label { display: none; }
+      .overview-grid, .resources-grid, .capstone-steps { grid-template-columns: 1fr; }
       .hero-stats { gap: 20px; }
-      .topic-grid { grid-template-columns: 1fr; }
-      .tools-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<div class="hero">
-  <div class="hero-badge">Free Self-Study Edition</div>
-  <h1>Data Science for <span>Business</span></h1>
-  <p>Equivalent curriculum to Harvard's $1,600 course — curated free resources, structured modules, and hands-on tools.</p>
-  <div class="hero-stats">
-    <div class="stat"><div class="num">7</div><div class="label">Modules</div></div>
-    <div class="stat"><div class="num">4–5h</div><div class="label">Per Week</div></div>
-    <div class="stat"><div class="num">4 wks</div><div class="label">Duration</div></div>
-    <div class="stat"><div class="num">$0</div><div class="label">Cost</div></div>
-  </div>
-  <div class="saved">You save $1,600 — 100% free resources below</div>
+<div class="topbar">
+  <div class="topbar-brand">Data Science for <span>Business</span> &middot; Free Self-Study</div>
+  <div class="topbar-counter">Stage <strong id="slideLabel">Overview</strong> / 9</div>
 </div>
 
-<div class="container">
+<div class="step-bar">
+  <div class="step-list" id="stepList">
+    <button class="step-btn active" onclick="goTo(0)"><span class="step-num">&#8962;</span><span class="step-label">Overview</span></button>
+    <button class="step-btn" onclick="goTo(1)"><span class="step-num">1</span><span class="step-label">Foundations</span></button>
+    <button class="step-btn" onclick="goTo(2)"><span class="step-num">2</span><span class="step-label">Statistics</span></button>
+    <button class="step-btn" onclick="goTo(3)"><span class="step-num">3</span><span class="step-label">Data Quality</span></button>
+    <button class="step-btn" onclick="goTo(4)"><span class="step-num">4</span><span class="step-label">Visualization</span></button>
+    <button class="step-btn" onclick="goTo(5)"><span class="step-num">5</span><span class="step-label">Regression</span></button>
+    <button class="step-btn" onclick="goTo(6)"><span class="step-num">6</span><span class="step-label">R / Tools</span></button>
+    <button class="step-btn" onclick="goTo(7)"><span class="step-num">7</span><span class="step-label">ML &amp; A/B</span></button>
+    <button class="step-btn" onclick="goTo(8)"><span class="step-num">&#9733;</span><span class="step-label">Capstone</span></button>
+    <button class="step-btn" onclick="goTo(9)"><span class="step-num">&#10003;</span><span class="step-label">Tracker</span></button>
+  </div>
+</div>
 
-  <!-- ── WHAT YOU WILL LEARN ── -->
-  <section>
-    <h2><span class="icon">🎯</span> What You Will Learn</h2>
-    <div class="topic-grid">
-      <div class="topic-card">
-        <h3>📊 Data-Driven Decision Making</h3>
-        <p>Move beyond spreadsheets; know when to trust your data and how to act on it.</p>
-      </div>
-      <div class="topic-card">
-        <h3>📐 Statistical Thinking</h3>
-        <p>Understand distributions, confidence, correlation vs. causation, and avoiding bias.</p>
-      </div>
-      <div class="topic-card">
-        <h3>🔢 Regression & Prediction</h3>
-        <p>Linear regression, forecasting, and building predictive models for business outcomes.</p>
-      </div>
-      <div class="topic-card">
-        <h3>📉 Data Visualization</h3>
-        <p>Create compelling charts and dashboards; communicate insights to non-technical stakeholders.</p>
-      </div>
-      <div class="topic-card">
-        <h3>🗄️ Data Curation & Quality</h3>
-        <p>Identify bad data, missing values, and how to clean and prepare datasets.</p>
-      </div>
-      <div class="topic-card">
-        <h3>🤖 Intro to Machine Learning</h3>
-        <p>Conceptual overview of classification, clustering, and when to use ML in business.</p>
-      </div>
-      <div class="topic-card">
-        <h3>💬 Speaking Data Science</h3>
-        <p>Communicate with data teams; understand R/Python syntax at a conceptual level.</p>
+<div class="slides-wrap">
+
+  <!-- SLIDE 0: OVERVIEW -->
+  <div class="slide active" id="slide-0">
+    <div class="overview-hero">
+      <div class="pill">Free Self-Study Edition</div>
+      <h1>Data Science for <em>Business</em></h1>
+      <p>Equivalent curriculum to Harvard&rsquo;s $1,600 course &mdash; 7 structured stages, curated free resources, hands-on tools.</p>
+      <div class="hero-stats">
+        <div class="hstat"><div class="n">7</div><div class="l">Stages</div></div>
+        <div class="hstat"><div class="n">4&ndash;5h</div><div class="l">Per Week</div></div>
+        <div class="hstat"><div class="n">4 wks</div><div class="l">Duration</div></div>
+        <div class="hstat"><div class="n">$0</div><div class="l">Cost</div></div>
       </div>
     </div>
-  </section>
-
-  <!-- ── 4-WEEK SCHEDULE ── -->
-  <section>
-    <h2><span class="icon">📅</span> 4-Week Study Schedule</h2>
-    <div class="callout">
-      <strong>Pace:</strong> 4–5 hours per week. Follow the Harvard course pace exactly — one phase per week.
+    <div class="overview-grid">
+      <div class="ov-card" onclick="goTo(1)">
+        <div class="ov-num">1</div>
+        <div><h3>Foundations of Data Science</h3><p>What is data science? Types of data, business questions, and the analytics pipeline.</p><div class="ov-week">Week 1 &middot; ~5h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(2)">
+        <div class="ov-num">2</div>
+        <div><h3>Statistics &amp; Probability</h3><p>Mean, median, variance, distributions, p-values and hypothesis testing for business decisions.</p><div class="ov-week">Week 1&ndash;2 &middot; ~6h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(3)">
+        <div class="ov-num">3</div>
+        <div><h3>Data Quality &amp; Curation</h3><p>Identify bad data, missing values, outliers, and biased datasets before analysis.</p><div class="ov-week">Week 2 &middot; ~4h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(4)">
+        <div class="ov-num">4</div>
+        <div><h3>Data Visualization &amp; Storytelling</h3><p>Chart types, design principles, and communicating insights to business audiences.</p><div class="ov-week">Week 2 &middot; ~5h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(5)">
+        <div class="ov-num">5</div>
+        <div><h3>Regression &amp; Forecasting</h3><p>Linear regression, R-squared, multiple regression, and forecasting for business planning.</p><div class="ov-week">Week 3 &middot; ~6h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(6)">
+        <div class="ov-num">6</div>
+        <div><h3>Reading R Code &amp; Tools</h3><p>Read R syntax at a conceptual level; understand data team outputs and make informed requests.</p><div class="ov-week">Week 3 &middot; ~4h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(7)">
+        <div class="ov-num">7</div>
+        <div><h3>Machine Learning &amp; A/B Testing</h3><p>Classification, clustering, and A/B testing for business experiments.</p><div class="ov-week">Week 4 &middot; ~5h</div></div>
+      </div>
+      <div class="ov-card" onclick="goTo(8)" style="border-color:rgba(165,28,48,0.4)">
+        <div class="ov-num" style="background:#c0392b">&#9733;</div>
+        <div><h3>Capstone Project</h3><p>Apply everything to a real dataset. Write a 1-page data-driven business recommendation.</p><div class="ov-week">Week 4 &middot; Final</div></div>
+      </div>
     </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-week">Week 1</div>
-        <div class="tl-title">Foundations — Thinking with Data</div>
-        <div class="tl-desc">What is data science? Types of data, business questions, data ethics, and the analytics pipeline.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-week">Week 2</div>
-        <div class="tl-title">Statistics & Visualization</div>
-        <div class="tl-desc">Descriptive statistics, distributions, correlation, hypothesis testing basics, and chart types.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-week">Week 3</div>
-        <div class="tl-title">Regression, Forecasting & Prediction</div>
-        <div class="tl-desc">Linear regression, R-squared, residuals, time series, and forecasting for business planning.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-week">Week 4</div>
-        <div class="tl-title">Machine Learning & Storytelling</div>
-        <div class="tl-desc">Classification, clustering, A/B testing, and building a data-driven business narrative.</div>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- ── MODULE 1 ── -->
-  <section>
-    <h2><span class="icon">📚</span> Module Curriculum & Free Resources</h2>
-
-    <div class="roadmap">
-
-      <!-- PHASE 1 -->
-      <div class="phase open">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">1</div>
-          <div class="phase-title">Foundations of Data Science for Business</div>
-          <div class="phase-meta">Week 1 · ~5h</div>
-          <div class="phase-arrow">▶</div>
+  <!-- SLIDE 1 -->
+  <div class="slide" id="slide-1">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 1 of 7</div>
+      <div class="stage-title">Foundations of Data Science for Business</div>
+      <div class="stage-desc">Understand what data science is, how it fits into business strategy, and the end-to-end data pipeline. Learn why data-driven decisions outperform intuition alone.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 1</strong></span>
+        <span class="meta-chip">&#8987; <strong>~5 hours</strong></span>
+        <span class="meta-chip">&#128202; Introductory</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; Watch First</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.youtube.com/watch?v=X3paOmcrTjQ" target="_blank"><span class="badge b-vid">VIDEO</span> What is Data Science? &mdash; IBM</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=ua-CiDNNj30" target="_blank"><span class="badge b-vid">VIDEO</span> Data Science for Business &mdash; freeCodeCamp (4h)</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=KdgQvgE3ji4" target="_blank"><span class="badge b-vid">VIDEO</span> Data-Driven Decision Making &mdash; MIT OCW</a>
+          </div>
         </div>
-        <div class="phase-body">
-          <p>Understand what data science is, how it fits into business strategy, and the end-to-end data pipeline.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 Introduction Videos</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.youtube.com/watch?v=X3paOmcrTjQ" target="_blank">
-                  <span class="badge video">VIDEO</span> What is Data Science? — IBM
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=ua-CiDNNj30" target="_blank">
-                  <span class="badge video">VIDEO</span> Data Science for Business — freeCodeCamp (4h)
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=KdgQvgE3ji4" target="_blank">
-                  <span class="badge video">VIDEO</span> Data-Driven Decision Making — MIT OpenCourseWare
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>📖 Reading</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank">
-                  <span class="badge free">FREE</span> Kaggle: Intro to ML (interactive)
-                </a>
-                <a class="resource-link" href="https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: Data Scientist — Sexiest Job
-                </a>
-                <a class="resource-link" href="https://www.ibm.com/think/topics/data-science" target="_blank">
-                  <span class="badge article">ARTICLE</span> IBM: What is Data Science?
-                </a>
-              </div>
-            </div>
+        <div class="res-card">
+          <h4>&#128214; Read Next</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Intro to ML &mdash; interactive</a>
+            <a class="res-link" href="https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Data Scientist &mdash; Sexiest Job</a>
+            <a class="res-link" href="https://www.ibm.com/think/topics/data-science" target="_blank"><span class="badge b-art">ARTICLE</span> IBM: What is Data Science?</a>
           </div>
         </div>
       </div>
-
-      <!-- PHASE 2 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">2</div>
-          <div class="phase-title">Statistics & Probability for Decision-Making</div>
-          <div class="phase-meta">Week 1–2 · ~6h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Learn to read, interpret, and question statistics. Understand mean, median, variance, distributions, and p-values in a business context.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 Statistics Courses</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.khanacademy.org/math/statistics-probability" target="_blank">
-                  <span class="badge free">FREE</span> Khan Academy: Statistics & Probability
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=xxpc-HPKN28" target="_blank">
-                  <span class="badge video">VIDEO</span> Statistics for Data Science — Simplilearn
-                </a>
-                <a class="resource-link" href="https://www.coursera.org/learn/statistical-inference" target="_blank">
-                  <span class="badge free">FREE</span> Coursera: Statistical Inference (audit free)
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>📊 Business Stats Focus</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://hbr.org/2016/02/a-refresher-on-statistical-significance" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: Statistical Significance Refresher
-                </a>
-                <a class="resource-link" href="https://hbr.org/2014/05/an-introduction-to-statistical-methods-and-data-analysis" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: Intro to Statistical Methods
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=9FtHB7V14Fo" target="_blank">
-                  <span class="badge video">VIDEO</span> Correlation vs Causation — Ted-Ed
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Pick a business problem you care about. Write down 3 questions you would want data to answer. This framing exercise is how Harvard opens the course.</p>
       </div>
-
-      <!-- PHASE 3 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">3</div>
-          <div class="phase-title">Data Curation & Quality</div>
-          <div class="phase-meta">Week 2 · ~4h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Learn how data is collected, cleaned, and prepared. Identify missing data, outliers, and biased datasets before analysis.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 Data Cleaning</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.kaggle.com/learn/data-cleaning" target="_blank">
-                  <span class="badge free">FREE</span> Kaggle: Data Cleaning (interactive)
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=ht3wDmmbGg8" target="_blank">
-                  <span class="badge video">VIDEO</span> Data Wrangling Crash Course
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>📖 Data Quality Concepts</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://hbr.org/2018/04/if-your-data-is-bad-your-machine-learning-tools-are-useless" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: Bad Data = Useless ML
-                </a>
-                <a class="resource-link" href="https://towardsdatascience.com/data-quality-dimensions-measuring-data-quality-6e3e03f5bdbd" target="_blank">
-                  <span class="badge article">ARTICLE</span> Data Quality Dimensions Explained
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 4 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">4</div>
-          <div class="phase-title">Data Visualization & Storytelling</div>
-          <div class="phase-meta">Week 2 · ~5h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Understand chart types, design principles, and how to tell a compelling story with data for business audiences.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 Visualization Courses</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.kaggle.com/learn/data-visualization" target="_blank">
-                  <span class="badge free">FREE</span> Kaggle: Data Visualization (interactive)
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=8EMW7io4rSI" target="_blank">
-                  <span class="badge video">VIDEO</span> Data Visualization Best Practices — Google
-                </a>
-                <a class="resource-link" href="https://www.coursera.org/learn/data-visualization" target="_blank">
-                  <span class="badge free">FREE</span> Coursera: Data Visualization (audit free)
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>🛠️ Practice Tools</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://public.tableau.com/en/gallery" target="_blank">
-                  <span class="badge tool">TOOL</span> Tableau Public — free dashboards
-                </a>
-                <a class="resource-link" href="https://flourish.studio/" target="_blank">
-                  <span class="badge tool">TOOL</span> Flourish — no-code data stories
-                </a>
-                <a class="resource-link" href="https://rawgraphs.io/" target="_blank">
-                  <span class="badge tool">TOOL</span> RAWGraphs — free visual charts
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 5 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">5</div>
-          <div class="phase-title">Regression Models & Forecasting</div>
-          <div class="phase-meta">Week 3 · ~6h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Core of the Harvard course — linear regression, multiple regression, R-squared, forecasting sales/revenue, and reading R outputs.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 Regression Videos</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.youtube.com/watch?v=nk2CQITm_eo" target="_blank">
-                  <span class="badge video">VIDEO</span> Linear Regression — StatQuest (clear!)
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=aq8VU5KLmkY" target="_blank">
-                  <span class="badge video">VIDEO</span> Multiple Regression — StatQuest
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=aircAruvnKk" target="_blank">
-                  <span class="badge video">VIDEO</span> Neural Networks & Regression — 3Blue1Brown
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>📖 Regression for Business</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://hbr.org/2015/11/a-refresher-on-regression-analysis" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: Regression Analysis Refresher
-                </a>
-                <a class="resource-link" href="https://www.coursera.org/learn/regression-models" target="_blank">
-                  <span class="badge free">FREE</span> Coursera: Regression Models in R (audit free)
-                </a>
-                <a class="resource-link" href="https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data" target="_blank">
-                  <span class="badge free">FREE</span> Khan Academy: Linear Regression
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 6 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">6</div>
-          <div class="phase-title">Reading R Code & Working with Data Tools</div>
-          <div class="phase-meta">Week 3 · ~4h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Harvard teaches you to read R syntax at a conceptual level (not write it). Learn enough R to understand data team outputs and make informed requests.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 R for Non-Programmers</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.youtube.com/watch?v=_V8eKsto3Ug" target="_blank">
-                  <span class="badge video">VIDEO</span> R Crash Course for Absolute Beginners
-                </a>
-                <a class="resource-link" href="https://www.coursera.org/learn/r-programming" target="_blank">
-                  <span class="badge free">FREE</span> Coursera: R Programming (audit free)
-                </a>
-                <a class="resource-link" href="https://swcarpentry.github.io/r-novice-gapminder/" target="_blank">
-                  <span class="badge free">FREE</span> Software Carpentry: R for Beginners
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>🛠️ Practice in Browser</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://posit.cloud/" target="_blank">
-                  <span class="badge tool">TOOL</span> Posit Cloud (RStudio in browser — free tier)
-                </a>
-                <a class="resource-link" href="https://www.kaggle.com/code" target="_blank">
-                  <span class="badge tool">TOOL</span> Kaggle Notebooks (R + Python, free GPU)
-                </a>
-                <a class="resource-link" href="https://colab.research.google.com/" target="_blank">
-                  <span class="badge tool">TOOL</span> Google Colab (free cloud notebook)
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHASE 7 -->
-      <div class="phase">
-        <div class="phase-header" onclick="toggle(this)">
-          <div class="phase-num">7</div>
-          <div class="phase-title">Machine Learning Concepts & A/B Testing</div>
-          <div class="phase-meta">Week 4 · ~5h</div>
-          <div class="phase-arrow">▶</div>
-        </div>
-        <div class="phase-body">
-          <p>Conceptual introduction to classification (decision trees, logistic regression), clustering, and A/B testing for business experiments.</p>
-          <div class="topic-grid">
-            <div class="topic-card">
-              <h3>🎬 ML for Business Managers</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://www.youtube.com/watch?v=Gv9_4yMHFhI" target="_blank">
-                  <span class="badge video">VIDEO</span> Machine Learning for Everyone — Simplilearn
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=i_LwzRVP7bg" target="_blank">
-                  <span class="badge video">VIDEO</span> StatQuest: Decision Trees Explained
-                </a>
-                <a class="resource-link" href="https://www.coursera.org/learn/machine-learning" target="_blank">
-                  <span class="badge free">FREE</span> Coursera: Andrew Ng ML Course (audit free)
-                </a>
-              </div>
-            </div>
-            <div class="topic-card">
-              <h3>🧪 A/B Testing</h3>
-              <div class="resource-links">
-                <a class="resource-link" href="https://hbr.org/2017/06/a-refresher-on-ab-testing" target="_blank">
-                  <span class="badge article">ARTICLE</span> HBR: A/B Testing Refresher
-                </a>
-                <a class="resource-link" href="https://www.udacity.com/course/ab-testing--ud257" target="_blank">
-                  <span class="badge free">FREE</span> Udacity: A/B Testing (free course)
-                </a>
-                <a class="resource-link" href="https://www.youtube.com/watch?v=VXsRLDGetyE" target="_blank">
-                  <span class="badge video">VIDEO</span> A/B Testing Explained for Business
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /.roadmap -->
-  </section>
-
-  <!-- ── BONUS: CAPSTONE ── -->
-  <section>
-    <h2><span class="icon">🏁</span> Capstone Project (Replaces Harvard Assignment)</h2>
-    <div class="callout">
-      <strong>Goal:</strong> Apply everything you've learned to a real dataset and write a 1-page data-driven business recommendation.
     </div>
-    <div class="topic-grid">
-      <div class="topic-card">
-        <h3>Step 1 — Pick a Dataset</h3>
-        <p>Choose a real business dataset from a free source.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://www.kaggle.com/datasets" target="_blank">
-            <span class="badge free">FREE</span> Kaggle Datasets
-          </a>
-          <a class="resource-link" href="https://data.worldbank.org/" target="_blank">
-            <span class="badge free">FREE</span> World Bank Open Data
-          </a>
-          <a class="resource-link" href="https://datasetsearch.research.google.com/" target="_blank">
-            <span class="badge free">FREE</span> Google Dataset Search
-          </a>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide" id="slide-2">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 2 of 7</div>
+      <div class="stage-title">Statistics &amp; Probability for Decision-Making</div>
+      <div class="stage-desc">Learn to read, interpret, and question statistics. Understand the measures businesses use every day &mdash; and the common mistakes that lead decisions astray.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 1&ndash;2</strong></span>
+        <span class="meta-chip">&#8987; <strong>~6 hours</strong></span>
+        <span class="meta-chip">&#128202; Foundational</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; Core Courses</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.khanacademy.org/math/statistics-probability" target="_blank"><span class="badge b-free">FREE</span> Khan Academy: Statistics &amp; Probability</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=xxpc-HPKN28" target="_blank"><span class="badge b-vid">VIDEO</span> Statistics for Data Science &mdash; Simplilearn</a>
+            <a class="res-link" href="https://www.coursera.org/learn/statistical-inference" target="_blank"><span class="badge b-free">FREE</span> Coursera: Statistical Inference (audit)</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128214; Business Focus</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://hbr.org/2016/02/a-refresher-on-statistical-significance" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Statistical Significance Refresher</a>
+            <a class="res-link" href="https://hbr.org/2014/05/an-introduction-to-statistical-methods-and-data-analysis" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Intro to Statistical Methods</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=9FtHB7V14Fo" target="_blank"><span class="badge b-vid">VIDEO</span> Correlation vs Causation &mdash; TED-Ed</a>
+          </div>
         </div>
       </div>
-      <div class="topic-card">
-        <h3>Step 2 — Analyze It</h3>
-        <p>Run descriptive stats + at least one regression. Use R (Posit Cloud) or Excel.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://posit.cloud/" target="_blank"><span class="badge tool">TOOL</span> Posit Cloud (RStudio)</a>
-          <a class="resource-link" href="https://www.google.com/sheets/about/" target="_blank"><span class="badge tool">TOOL</span> Google Sheets (free)</a>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Take any news headline with a statistic (&ldquo;Sales up 20%!&rdquo;). Find the sample size, baseline, and confidence interval. Ask: is this statistically significant or just noise?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide" id="slide-3">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 3 of 7</div>
+      <div class="stage-title">Data Quality &amp; Curation</div>
+      <div class="stage-desc">Learn how data is collected, cleaned, and prepared. Identify missing data, outliers, and biased datasets &mdash; the most common source of wrong business decisions.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 2</strong></span>
+        <span class="meta-chip">&#8987; <strong>~4 hours</strong></span>
+        <span class="meta-chip">&#128295; Practical</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; Data Cleaning</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.kaggle.com/learn/data-cleaning" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Data Cleaning (interactive)</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=ht3wDmmbGg8" target="_blank"><span class="badge b-vid">VIDEO</span> Data Wrangling Crash Course</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128214; Data Quality Concepts</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://hbr.org/2018/04/if-your-data-is-bad-your-machine-learning-tools-are-useless" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Bad Data = Useless ML</a>
+            <a class="res-link" href="https://towardsdatascience.com/data-quality-dimensions-measuring-data-quality-6e3e03f5bdbd" target="_blank"><span class="badge b-art">ARTICLE</span> Data Quality Dimensions Explained</a>
+          </div>
         </div>
       </div>
-      <div class="topic-card">
-        <h3>Step 3 — Visualize & Present</h3>
-        <p>Build at least 3 charts. Write a 1-page recommendation as if presenting to a manager.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://public.tableau.com/" target="_blank"><span class="badge tool">TOOL</span> Tableau Public</a>
-          <a class="resource-link" href="https://www.canva.com/presentations/" target="_blank"><span class="badge tool">TOOL</span> Canva Presentation</a>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Download any CSV from <a href="https://www.kaggle.com/datasets" target="_blank" style="color:var(--crimson)">Kaggle Datasets</a>. Open in Google Sheets. Count blank cells, spot outliers in one column, and describe what cleaning steps you&rsquo;d take before analysis.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide" id="slide-4">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 4 of 7</div>
+      <div class="stage-title">Data Visualization &amp; Storytelling</div>
+      <div class="stage-desc">Create charts that communicate insight clearly. Learn when to use bar vs. line vs. scatter, and how to build a data-driven narrative for non-technical executives.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 2</strong></span>
+        <span class="meta-chip">&#8987; <strong>~5 hours</strong></span>
+        <span class="meta-chip">&#128295; Hands-on</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; Courses</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.kaggle.com/learn/data-visualization" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Data Visualization (interactive)</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=8EMW7io4rSI" target="_blank"><span class="badge b-vid">VIDEO</span> Data Viz Best Practices &mdash; Google</a>
+            <a class="res-link" href="https://www.coursera.org/learn/data-visualization" target="_blank"><span class="badge b-free">FREE</span> Coursera: Data Visualization (audit)</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128295; Free Tools</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://public.tableau.com/en/gallery" target="_blank"><span class="badge b-tool">TOOL</span> Tableau Public &mdash; free dashboards</a>
+            <a class="res-link" href="https://flourish.studio/" target="_blank"><span class="badge b-tool">TOOL</span> Flourish &mdash; no-code data stories</a>
+            <a class="res-link" href="https://rawgraphs.io/" target="_blank"><span class="badge b-tool">TOOL</span> RAWGraphs &mdash; free chart builder</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128214; Reading</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.storytellingwithdata.com/blog" target="_blank"><span class="badge b-art">ARTICLE</span> Storytelling with Data &mdash; free blog</a>
+          </div>
+        </div>
+      </div>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Using the dataset from Stage 3, build 3 charts in Tableau Public or Flourish: one bar chart, one line trend, one scatter plot. Write one sentence of insight per chart.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide" id="slide-5">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 5 of 7</div>
+      <div class="stage-title">Regression Models &amp; Forecasting</div>
+      <div class="stage-desc">The core of the Harvard course. Understand linear regression, R-squared, multiple variables, and how to forecast sales or revenue &mdash; and how to read the output critically.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 3</strong></span>
+        <span class="meta-chip">&#8987; <strong>~6 hours</strong></span>
+        <span class="meta-chip">&#128202; Core Skill</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; Regression Videos</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.youtube.com/watch?v=nk2CQITm_eo" target="_blank"><span class="badge b-vid">VIDEO</span> Linear Regression &mdash; StatQuest &#11088;</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=aq8VU5KLmkY" target="_blank"><span class="badge b-vid">VIDEO</span> Multiple Regression &mdash; StatQuest</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128214; Business Regression</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://hbr.org/2015/11/a-refresher-on-regression-analysis" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Regression Analysis Refresher &#11088;</a>
+            <a class="res-link" href="https://www.coursera.org/learn/regression-models" target="_blank"><span class="badge b-free">FREE</span> Coursera: Regression Models in R (audit)</a>
+            <a class="res-link" href="https://www.khanacademy.org/math/statistics-probability/describing-relationships-quantitative-data" target="_blank"><span class="badge b-free">FREE</span> Khan Academy: Linear Regression</a>
+          </div>
+        </div>
+      </div>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>In Google Sheets, create a simple linear regression using two columns (e.g. ad spend vs. revenue). Use <code style="color:var(--crimson)">LINEST()</code> or the chart trendline to get the slope and R&sup2;. Ask: what does this R&sup2; tell you about predictive power?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide" id="slide-6">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 6 of 7</div>
+      <div class="stage-title">Reading R Code &amp; Working with Data Tools</div>
+      <div class="stage-desc">Harvard teaches you to read R syntax at a conceptual level &mdash; not write it from scratch. Learn enough R to understand data team outputs, make informed requests, and interpret results.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 3</strong></span>
+        <span class="meta-chip">&#8987; <strong>~4 hours</strong></span>
+        <span class="meta-chip">&#128187; Hands-on</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; R for Non-Programmers</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.youtube.com/watch?v=_V8eKsto3Ug" target="_blank"><span class="badge b-vid">VIDEO</span> R Crash Course for Beginners</a>
+            <a class="res-link" href="https://www.coursera.org/learn/r-programming" target="_blank"><span class="badge b-free">FREE</span> Coursera: R Programming (audit)</a>
+            <a class="res-link" href="https://swcarpentry.github.io/r-novice-gapminder/" target="_blank"><span class="badge b-free">FREE</span> Software Carpentry: R Novice</a>
+            <a class="res-link" href="https://r4ds.hadley.nz/" target="_blank"><span class="badge b-book">BOOK</span> R for Data Science &mdash; free online</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#128295; Run R in Browser</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://posit.cloud/" target="_blank"><span class="badge b-tool">TOOL</span> Posit Cloud (RStudio in browser)</a>
+            <a class="res-link" href="https://www.kaggle.com/code" target="_blank"><span class="badge b-tool">TOOL</span> Kaggle Notebooks (R + Python free)</a>
+            <a class="res-link" href="https://colab.research.google.com/" target="_blank"><span class="badge b-tool">TOOL</span> Google Colab (free cloud notebook)</a>
+          </div>
+        </div>
+      </div>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Open Posit Cloud (free). Run: <code style="color:var(--crimson)">x &lt;- c(1,2,3,4,5); y &lt;- c(2,4,5,4,5); lm(y~x)</code>. Read the output: identify the intercept, slope, and what they mean in business terms.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide" id="slide-7">
+    <div class="stage-wrap">
+      <div class="stage-tag">Stage 7 of 7</div>
+      <div class="stage-title">Machine Learning Concepts &amp; A/B Testing</div>
+      <div class="stage-desc">Conceptual overview of classification, clustering, and A/B testing &mdash; the tools business managers use to run experiments and make decisions at scale without a PhD in ML.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 4</strong></span>
+        <span class="meta-chip">&#8987; <strong>~5 hours</strong></span>
+        <span class="meta-chip">&#128202; Applied</span>
+      </div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <h4>&#127916; ML for Managers</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://www.youtube.com/watch?v=Gv9_4yMHFhI" target="_blank"><span class="badge b-vid">VIDEO</span> Machine Learning for Everyone</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=i_LwzRVP7bg" target="_blank"><span class="badge b-vid">VIDEO</span> StatQuest: Decision Trees Explained</a>
+            <a class="res-link" href="https://www.coursera.org/learn/machine-learning" target="_blank"><span class="badge b-free">FREE</span> Coursera: Andrew Ng ML (audit)</a>
+          </div>
+        </div>
+        <div class="res-card">
+          <h4>&#129514; A/B Testing</h4>
+          <div class="res-list">
+            <a class="res-link" href="https://hbr.org/2017/06/a-refresher-on-ab-testing" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: A/B Testing Refresher &#11088;</a>
+            <a class="res-link" href="https://www.udacity.com/course/ab-testing--ud257" target="_blank"><span class="badge b-free">FREE</span> Udacity: A/B Testing (free course)</a>
+            <a class="res-link" href="https://www.youtube.com/watch?v=VXsRLDGetyE" target="_blank"><span class="badge b-vid">VIDEO</span> A/B Testing Explained for Business</a>
+          </div>
+        </div>
+      </div>
+      <div class="practice-box">
+        <h4>&#9999;&#65039; Practice Task</h4>
+        <p>Design a simple A/B test for a product you know: define the hypothesis, choose the metric, determine sample size, and decide what a &ldquo;statistically significant&rdquo; result would change.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: CAPSTONE -->
+  <div class="slide" id="slide-8">
+    <div class="stage-wrap">
+      <div class="stage-tag">Capstone Project</div>
+      <div class="stage-title">Build a Real Data-Driven Business Case</div>
+      <div class="stage-desc">Apply everything you&rsquo;ve learned to a real dataset. Produce a 1-page recommendation as if presenting to a senior manager. This replaces Harvard&rsquo;s graded assignment.</div>
+      <div class="stage-meta">
+        <span class="meta-chip">&#128197; <strong>Week 4</strong></span>
+        <span class="meta-chip">&#8987; <strong>~5 hours</strong></span>
+        <span class="meta-chip">&#127937; Final</span>
+      </div>
+      <div class="capstone-steps">
+        <div class="cap-card">
+          <div class="cap-n">01</div>
+          <h3>Pick a Dataset</h3>
+          <p>Choose a real business dataset &mdash; sales, marketing, HR, or finance.</p>
+          <div class="res-list">
+            <a class="res-link" href="https://www.kaggle.com/datasets" target="_blank"><span class="badge b-free">FREE</span> Kaggle Datasets</a>
+            <a class="res-link" href="https://data.worldbank.org/" target="_blank"><span class="badge b-free">FREE</span> World Bank Open Data</a>
+            <a class="res-link" href="https://datasetsearch.research.google.com/" target="_blank"><span class="badge b-free">FREE</span> Google Dataset Search</a>
+          </div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-n">02</div>
+          <h3>Analyze It</h3>
+          <p>Run descriptive stats + at least one regression. Clean the data first.</p>
+          <div class="res-list">
+            <a class="res-link" href="https://posit.cloud/" target="_blank"><span class="badge b-tool">TOOL</span> Posit Cloud (RStudio)</a>
+            <a class="res-link" href="https://www.google.com/sheets/about/" target="_blank"><span class="badge b-tool">TOOL</span> Google Sheets</a>
+          </div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-n">03</div>
+          <h3>Visualize</h3>
+          <p>Build at least 3 charts that tell a clear story. Choose the right chart type.</p>
+          <div class="res-list">
+            <a class="res-link" href="https://public.tableau.com/" target="_blank"><span class="badge b-tool">TOOL</span> Tableau Public</a>
+            <a class="res-link" href="https://flourish.studio" target="_blank"><span class="badge b-tool">TOOL</span> Flourish</a>
+          </div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-n">04</div>
+          <h3>Present &amp; Share</h3>
+          <p>Write a 1-page recommendation. Share on LinkedIn or GitHub to signal your skills.</p>
+          <div class="res-list">
+            <a class="res-link" href="https://www.canva.com/presentations/" target="_blank"><span class="badge b-tool">TOOL</span> Canva (free)</a>
+            <a class="res-link" href="https://github.com/" target="_blank"><span class="badge b-tool">TOOL</span> GitHub Portfolio</a>
+          </div>
+        </div>
+      </div>
+      <hr class="sep">
+      <div class="stage-tag" style="margin-bottom:12px">&#128218; Recommended Books</div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <div class="res-list">
+            <a class="res-link" href="https://archive.org/search?query=data+science+for+business" target="_blank"><span class="badge b-book">BOOK</span> Data Science for Business &mdash; Provost &amp; Fawcett (borrow free)</a>
+            <a class="res-link" href="https://r4ds.hadley.nz/" target="_blank"><span class="badge b-free">FREE</span> R for Data Science (2e) &mdash; free online</a>
+            <a class="res-link" href="https://www.storytellingwithdata.com/blog" target="_blank"><span class="badge b-free">FREE</span> Storytelling with Data &mdash; free blog</a>
+            <a class="res-link" href="https://www.goodreads.com/book/show/17986418-naked-statistics" target="_blank"><span class="badge b-book">BOOK</span> Naked Statistics &mdash; Wheelan (~$10)</a>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ── FREE TOOLS ── -->
-  <section>
-    <h2><span class="icon">🛠️</span> Free Tools You Need</h2>
-    <div class="tools-grid">
-      <div class="tool-card">
-        <div class="t-icon">📊</div>
-        <h3>Tableau Public</h3>
-        <p>Industry-standard data visualization, 100% free public version</p>
-        <a href="https://public.tableau.com" target="_blank">Get Free</a>
-      </div>
-      <div class="tool-card">
-        <div class="t-icon">📓</div>
-        <h3>Posit Cloud</h3>
-        <p>RStudio in the browser — no install, free tier available</p>
-        <a href="https://posit.cloud" target="_blank">Get Free</a>
-      </div>
-      <div class="tool-card">
-        <div class="t-icon">🤖</div>
-        <h3>Kaggle</h3>
-        <p>Datasets, notebooks, and free courses with hands-on exercises</p>
-        <a href="https://kaggle.com" target="_blank">Get Free</a>
-      </div>
-      <div class="tool-card">
-        <div class="t-icon">🔬</div>
-        <h3>Google Colab</h3>
-        <p>Free Jupyter notebooks with GPU — run R or Python in browser</p>
-        <a href="https://colab.research.google.com" target="_blank">Get Free</a>
-      </div>
-      <div class="tool-card">
-        <div class="t-icon">📐</div>
-        <h3>Khan Academy</h3>
-        <p>Statistics & probability — best free refresher for math</p>
-        <a href="https://khanacademy.org/math/statistics-probability" target="_blank">Get Free</a>
-      </div>
-      <div class="tool-card">
-        <div class="t-icon">📋</div>
-        <h3>Flourish</h3>
-        <p>No-code, beautiful interactive data stories for business</p>
-        <a href="https://flourish.studio" target="_blank">Get Free</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SELF-STUDY CHECKLIST ── -->
-  <section>
-    <h2><span class="icon">✅</span> Self-Study Progress Tracker</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Check items as you complete them. Progress is saved in your browser.</p>
-    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-    <ul class="checklist" id="checklist">
-      <li><input type="checkbox" id="c1" onchange="updateProgress()"><label for="c1">Watch "What is Data Science?" IBM video</label></li>
-      <li><input type="checkbox" id="c2" onchange="updateProgress()"><label for="c2">Read HBR: Data Scientist — Sexiest Job article</label></li>
-      <li><input type="checkbox" id="c3" onchange="updateProgress()"><label for="c3">Complete Khan Academy: Statistics & Probability (basics)</label></li>
-      <li><input type="checkbox" id="c4" onchange="updateProgress()"><label for="c4">Read HBR: Statistical Significance Refresher</label></li>
-      <li><input type="checkbox" id="c5" onchange="updateProgress()"><label for="c5">Complete Kaggle: Data Cleaning course</label></li>
-      <li><input type="checkbox" id="c6" onchange="updateProgress()"><label for="c6">Read HBR: Bad Data = Useless ML article</label></li>
-      <li><input type="checkbox" id="c7" onchange="updateProgress()"><label for="c7">Complete Kaggle: Data Visualization course</label></li>
-      <li><input type="checkbox" id="c8" onchange="updateProgress()"><label for="c8">Build your first Tableau Public dashboard</label></li>
-      <li><input type="checkbox" id="c9" onchange="updateProgress()"><label for="c9">Watch StatQuest: Linear Regression video</label></li>
-      <li><input type="checkbox" id="c10" onchange="updateProgress()"><label for="c10">Read HBR: Regression Analysis Refresher</label></li>
-      <li><input type="checkbox" id="c11" onchange="updateProgress()"><label for="c11">Complete Coursera: Regression Models (audit free)</label></li>
-      <li><input type="checkbox" id="c12" onchange="updateProgress()"><label for="c12">Run first regression in Posit Cloud (RStudio)</label></li>
-      <li><input type="checkbox" id="c13" onchange="updateProgress()"><label for="c13">Watch "Machine Learning for Everyone" video</label></li>
-      <li><input type="checkbox" id="c14" onchange="updateProgress()"><label for="c14">Read HBR: A/B Testing Refresher</label></li>
-      <li><input type="checkbox" id="c15" onchange="updateProgress()"><label for="c15">Complete Udacity: A/B Testing free course</label></li>
-      <li><input type="checkbox" id="c16" onchange="updateProgress()"><label for="c16">Pick a Kaggle dataset for capstone project</label></li>
-      <li><input type="checkbox" id="c17" onchange="updateProgress()"><label for="c17">Analyze dataset with descriptive stats + regression</label></li>
-      <li><input type="checkbox" id="c18" onchange="updateProgress()"><label for="c18">Build 3 visualizations in Tableau or Flourish</label></li>
-      <li><input type="checkbox" id="c19" onchange="updateProgress()"><label for="c19">Write 1-page data-driven business recommendation</label></li>
-      <li><input type="checkbox" id="c20" onchange="updateProgress()"><label for="c20">🎉 Share capstone on LinkedIn or GitHub!</label></li>
-    </ul>
-  </section>
-
-  <!-- ── BONUS BOOKS ── -->
-  <section>
-    <h2><span class="icon">📖</span> Recommended Free / Low-Cost Books</h2>
-    <div class="topic-grid">
-      <div class="topic-card">
-        <h3>📘 Data Science for Business</h3>
-        <p>By Provost & Fawcett — the canonical textbook. Check your library or borrow from Internet Archive.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://archive.org/search?query=data+science+for+business" target="_blank">
-            <span class="badge free">FREE</span> Borrow on Internet Archive
-          </a>
-        </div>
-      </div>
-      <div class="topic-card">
-        <h3>📗 R for Data Science (2e)</h3>
-        <p>By Hadley Wickham — completely free online. Covers R, tidyverse, and ggplot2.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://r4ds.hadley.nz/" target="_blank">
-            <span class="badge free">FREE</span> Read free online at r4ds.hadley.nz
-          </a>
-        </div>
-      </div>
-      <div class="topic-card">
-        <h3>📙 Naked Statistics</h3>
-        <p>By Charles Wheelan — plain-language statistics for non-mathematicians. Highly readable.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://www.goodreads.com/book/show/17986418-naked-statistics" target="_blank">
-            <span class="badge book">BOOK</span> ~$10 on Amazon or free at library
-          </a>
-        </div>
-      </div>
-      <div class="topic-card">
-        <h3>📒 Storytelling with Data</h3>
-        <p>By Cole Nussbaumer Knaflic — how to make charts that actually communicate to business leaders.</p>
-        <div class="resource-links">
-          <a class="resource-link" href="https://www.storytellingwithdata.com/blog" target="_blank">
-            <span class="badge free">FREE</span> Free blog posts from the author
-          </a>
+  <!-- SLIDE 9: TRACKER -->
+  <div class="slide" id="slide-9">
+    <div class="stage-wrap">
+      <div class="stage-tag">Progress Tracker</div>
+      <div class="stage-title">Your Self-Study Checklist</div>
+      <div class="stage-desc">Check off items as you complete them. Progress is saved in your browser automatically.</div>
+      <div style="margin-top:24px">
+        <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+        <p id="progressText" style="font-size:13px;color:var(--muted);margin-bottom:20px">0 / 20 completed</p>
+        <div class="check-list">
+          <div class="check-item"><input type="checkbox" id="c1" onchange="updateProgress()"><label for="c1">Watch &ldquo;What is Data Science?&rdquo; IBM video</label></div>
+          <div class="check-item"><input type="checkbox" id="c2" onchange="updateProgress()"><label for="c2">Read HBR: Data Scientist &mdash; Sexiest Job</label></div>
+          <div class="check-item"><input type="checkbox" id="c3" onchange="updateProgress()"><label for="c3">Complete Khan Academy: Statistics &amp; Probability (basics)</label></div>
+          <div class="check-item"><input type="checkbox" id="c4" onchange="updateProgress()"><label for="c4">Read HBR: Statistical Significance Refresher</label></div>
+          <div class="check-item"><input type="checkbox" id="c5" onchange="updateProgress()"><label for="c5">Complete Kaggle: Data Cleaning course</label></div>
+          <div class="check-item"><input type="checkbox" id="c6" onchange="updateProgress()"><label for="c6">Read HBR: Bad Data = Useless ML</label></div>
+          <div class="check-item"><input type="checkbox" id="c7" onchange="updateProgress()"><label for="c7">Complete Kaggle: Data Visualization course</label></div>
+          <div class="check-item"><input type="checkbox" id="c8" onchange="updateProgress()"><label for="c8">Build first Tableau Public dashboard</label></div>
+          <div class="check-item"><input type="checkbox" id="c9" onchange="updateProgress()"><label for="c9">Watch StatQuest: Linear Regression</label></div>
+          <div class="check-item"><input type="checkbox" id="c10" onchange="updateProgress()"><label for="c10">Read HBR: Regression Analysis Refresher</label></div>
+          <div class="check-item"><input type="checkbox" id="c11" onchange="updateProgress()"><label for="c11">Complete Coursera: Regression Models in R (audit)</label></div>
+          <div class="check-item"><input type="checkbox" id="c12" onchange="updateProgress()"><label for="c12">Run first regression in Posit Cloud (RStudio)</label></div>
+          <div class="check-item"><input type="checkbox" id="c13" onchange="updateProgress()"><label for="c13">Watch &ldquo;Machine Learning for Everyone&rdquo; video</label></div>
+          <div class="check-item"><input type="checkbox" id="c14" onchange="updateProgress()"><label for="c14">Read HBR: A/B Testing Refresher</label></div>
+          <div class="check-item"><input type="checkbox" id="c15" onchange="updateProgress()"><label for="c15">Complete Udacity: A/B Testing free course</label></div>
+          <div class="check-item"><input type="checkbox" id="c16" onchange="updateProgress()"><label for="c16">Pick a Kaggle dataset for capstone</label></div>
+          <div class="check-item"><input type="checkbox" id="c17" onchange="updateProgress()"><label for="c17">Analyze dataset: descriptive stats + regression</label></div>
+          <div class="check-item"><input type="checkbox" id="c18" onchange="updateProgress()"><label for="c18">Build 3 visualizations (Tableau or Flourish)</label></div>
+          <div class="check-item"><input type="checkbox" id="c19" onchange="updateProgress()"><label for="c19">Write 1-page data-driven business recommendation</label></div>
+          <div class="check-item"><input type="checkbox" id="c20" onchange="updateProgress()"><label for="c20">&#127881; Share capstone on LinkedIn or GitHub!</label></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-</div><!-- /.container -->
+</div><!-- /.slides-wrap -->
 
-<footer>
-  <p>This self-study guide covers equivalent content to Harvard's <em>Data Science for Business</em> (DSFB) course using 100% free public resources.</p>
-  <p style="margin-top:8px; color: #6b7280;">All linked resources are third-party. This page has no affiliation with Harvard University.</p>
-</footer>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn" id="btnBack" onclick="prev()" disabled>&#9664; Back</button>
+  <div class="nav-center">
+    <button class="nav-btn play" id="btnPlay" onclick="togglePlay()">&#9654; Play All</button>
+    <div class="progress-dots" id="dots"></div>
+  </div>
+  <button class="nav-btn primary" id="btnNext" onclick="next()">Next &#9654;</button>
+</div>
 
 <script>
-  // Toggle accordion phases
-  function toggle(header) {
-    const phase = header.parentElement;
-    phase.classList.toggle('open');
+  const TOTAL = 9;
+  let current = 0;
+  let playTimer = null;
+
+  function goTo(n) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    document.querySelectorAll('.step-btn')[current].classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    const btns = document.querySelectorAll('.step-btn');
+    btns[current].classList.add('active');
+    btns[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    document.getElementById('slideLabel').textContent = current === 0 ? 'Overview' : current;
+    document.getElementById('btnBack').disabled = current === 0;
+    const nextBtn = document.getElementById('btnNext');
+    nextBtn.disabled = current === TOTAL;
+    nextBtn.textContent = current === TOTAL ? 'Done \u2713' : 'Next \u25b6';
+    updateDots();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Checklist persistence + progress bar
-  const total = 20;
-  function updateProgress() {
-    let checked = 0;
-    for (let i = 1; i <= total; i++) {
-      const cb = document.getElementById('c' + i);
-      const label = cb?.nextElementSibling;
-      if (cb?.checked) {
-        checked++;
-        label?.classList.add('done');
-      } else {
-        label?.classList.remove('done');
-      }
-      localStorage.setItem('cb_' + i, cb?.checked ? '1' : '0');
+  function next() { if (current < TOTAL) goTo(current + 1); }
+  function prev() { if (current > 0) goTo(current - 1); }
+
+  function togglePlay() {
+    if (playTimer) {
+      clearInterval(playTimer);
+      playTimer = null;
+      document.getElementById('btnPlay').textContent = '\u25b6 Play All';
+    } else {
+      if (current === TOTAL) goTo(0);
+      document.getElementById('btnPlay').textContent = '\u23f8 Pause';
+      playTimer = setInterval(() => {
+        if (current >= TOTAL) {
+          clearInterval(playTimer); playTimer = null;
+          document.getElementById('btnPlay').textContent = '\u25b6 Play All';
+        } else { next(); }
+      }, 6000);
     }
-    const pct = Math.round((checked / total) * 100);
-    document.getElementById('progressBar').style.width = pct + '%';
   }
 
-  // Load saved state on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    for (let i = 1; i <= total; i++) {
+  function buildDots() {
+    const wrap = document.getElementById('dots');
+    for (let i = 0; i <= TOTAL; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      d.onclick = () => goTo(i);
+      wrap.appendChild(d);
+    }
+  }
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  const TC = 20;
+  function updateProgress() {
+    let done = 0;
+    for (let i = 1; i <= TC; i++) {
       const cb = document.getElementById('c' + i);
-      if (cb && localStorage.getItem('cb_' + i) === '1') {
-        cb.checked = true;
-      }
+      const lbl = cb && cb.nextElementSibling;
+      if (cb && cb.checked) { done++; lbl && lbl.classList.add('done'); }
+      else { lbl && lbl.classList.remove('done'); }
+      localStorage.setItem('cb_' + i, cb && cb.checked ? '1' : '0');
+    }
+    const pct = Math.round((done / TC) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + TC + ' completed (' + pct + '%)';
+    document.querySelectorAll('.step-btn')[TOTAL].classList.toggle('done', done === TC);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    buildDots(); updateDots();
+    for (let i = 1; i <= TC; i++) {
+      const cb = document.getElementById('c' + i);
+      if (cb && localStorage.getItem('cb_' + i) === '1') cb.checked = true;
     }
     updateProgress();
   });
-</script>
 
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+</script>
 </body>
 </html>
