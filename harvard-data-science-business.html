@@ -5,510 +5,548 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Science for Business — Self-Study</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700;8..144,900&display=swap" rel="stylesheet">
   <style>
+    /* ── MD3 TOKEN LAYER ── */
     :root {
-      --red:      #c0392b;
-      --red-lt:   #fdf1f0;
-      --red-mid:  #fbe3e1;
-      --bg:       #f8f9fb;
-      --surface:  #ffffff;
-      --surface2: #f3f4f6;
-      --border:   #e5e7eb;
-      --border2:  #d1d5db;
-      --text:     #111827;
-      --sub:      #374151;
-      --muted:    #6b7280;
-      --green:    #059669;
-      --green-lt: #ecfdf5;
-      --blue:     #2563eb;
-      --blue-lt:  #eff6ff;
-      --amber:    #d97706;
-      --amber-lt: #fffbeb;
-      --purple:   #7c3aed;
-      --purple-lt:#f5f3ff;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-      --shadow:    0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-      --shadow-lg: 0 10px 30px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.05);
+      /* Primary — Red */
+      --md-primary:           #B3261E;
+      --md-on-primary:        #FFFFFF;
+      --md-primary-container: #F9DEDC;
+      --md-on-primary-container: #410E0B;
+      /* Secondary */
+      --md-secondary:         #775652;
+      --md-on-secondary:      #FFFFFF;
+      --md-secondary-container: #FFDAD6;
+      --md-on-secondary-container: #2C1512;
+      /* Tertiary */
+      --md-tertiary:          #715B2E;
+      --md-on-tertiary:       #FFFFFF;
+      --md-tertiary-container: #FDDFA4;
+      /* Surface */
+      --md-surface:           #FFFBFF;
+      --md-surface-dim:       #E8D6D5;
+      --md-surface-bright:    #FFFBFF;
+      --md-surface-container-lowest:  #FFFFFF;
+      --md-surface-container-low:     #FFF0EF;
+      --md-surface-container:         #FDEAE9;
+      --md-surface-container-high:    #F7E4E3;
+      --md-surface-container-highest: #F1DEDD;
+      --md-on-surface:        #201A19;
+      --md-on-surface-variant: #534341;
+      --md-outline:           #857370;
+      --md-outline-variant:   #D8C2BF;
+      --md-inverse-surface:   #362F2E;
+      /* Elevation overlays (MD3 uses tinted surfaces) */
+      --md-elev1: rgba(179,38,30,.05);
+      --md-elev2: rgba(179,38,30,.08);
+      --md-elev3: rgba(179,38,30,.11);
+      /* State layers */
+      --md-state-hover:   rgba(179,38,30,.08);
+      --md-state-press:   rgba(179,38,30,.12);
+      --md-state-focus:   rgba(179,38,30,.12);
+      /* Shapes */
+      --md-shape-xs:   4px;
+      --md-shape-sm:   8px;
+      --md-shape-md:  12px;
+      --md-shape-lg:  16px;
+      --md-shape-xl:  28px;
+      --md-shape-full: 9999px;
+      /* Shadows (MD3 tonal elevation, approximated) */
+      --md-shadow1: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
+      --md-shadow2: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
+      --md-shadow3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3);
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Roboto', system-ui, sans-serif;
+      background: var(--md-surface-container-low);
+      color: var(--md-on-surface);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── TOP BAR ── */
-    .topbar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      box-shadow: var(--shadow-sm);
+    /* ── MD3 TOP APP BAR (small) ── */
+    .app-bar {
+      background: var(--md-surface-container);
+      padding: 0 16px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 300;
+      /* MD3 elevation 2 */
+      box-shadow: var(--md-shadow2);
     }
-    .topbar-left { display: flex; align-items: center; gap: 10px; }
-    .topbar-logo {
-      width: 28px; height: 28px;
-      background: var(--red);
-      border-radius: 8px;
+    .app-bar-leading { display: flex; align-items: center; gap: 12px; }
+    .app-bar-icon {
+      width: 40px; height: 40px; border-radius: var(--md-shape-full);
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; color: #fff; font-weight: 800; flex-shrink: 0;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 18px; font-weight: 700; flex-shrink: 0;
     }
-    .topbar-brand { font-size: 14px; font-weight: 700; color: var(--text); }
-    .topbar-brand span { color: var(--red); }
-    .topbar-badge {
-      background: var(--red-lt); color: var(--red);
-      font-size: 11px; font-weight: 600;
-      padding: 2px 8px; border-radius: 20px;
-      border: 1px solid var(--red-mid);
+    .app-bar-title { font-size: 22px; font-weight: 400; letter-spacing: 0; color: var(--md-on-surface); }
+    .app-bar-title strong { font-weight: 500; color: var(--md-primary); }
+    .app-bar-actions { display: flex; align-items: center; gap: 4px; }
+    .app-bar-chip {
+      background: var(--md-secondary-container);
+      color: var(--md-on-secondary-container);
+      font-size: 12px; font-weight: 500;
+      padding: 4px 12px; border-radius: var(--md-shape-full);
+      border: none; cursor: default;
     }
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
-    .topbar-stage {
-      font-size: 12px; color: var(--muted);
-      background: var(--surface2);
-      padding: 4px 12px; border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-    .topbar-stage strong { color: var(--text); font-weight: 600; }
 
-    /* ── STEP BAR ── */
-    .step-bar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      position: sticky;
-      top: 56px;
-      z-index: 190;
+    /* ── MD3 NAVIGATION BAR / TAB ROW ── */
+    .nav-tabs {
+      background: var(--md-surface-container);
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 0 16px;
+      overflow-x: auto; scrollbar-width: none;
+      position: sticky; top: 64px; z-index: 290;
     }
-    .step-bar::-webkit-scrollbar { display: none; }
-    .step-list { display: flex; align-items: stretch; min-width: max-content; gap: 2px; }
-    .step-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 14px;
-      background: none; border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
-      font-family: 'Inter', sans-serif;
-      font-size: 12px; font-weight: 600;
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .tab-row { display: flex; min-width: max-content; }
+    .tab-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 14px 16px; border: none; background: none;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px; font-weight: 500;
+      color: var(--md-on-surface-variant);
       cursor: pointer; white-space: nowrap;
-      transition: color 0.15s, border-color 0.15s;
+      border-bottom: 3px solid transparent;
+      position: relative; transition: color 0.2s;
     }
-    .step-btn:hover { color: var(--text); }
-    .step-btn.active { color: var(--red); border-bottom-color: var(--red); }
-    .step-btn.done { color: var(--green); }
-    .step-btn.done.active { color: var(--green); border-bottom-color: var(--green); }
-    .step-num {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--surface2); border: 1px solid var(--border);
+    .tab-btn::after {
+      content: ''; position: absolute; inset: 0;
+      border-radius: 0; opacity: 0;
+      background: var(--md-on-surface-variant);
+      transition: opacity 0.15s;
+    }
+    .tab-btn:hover::after { opacity: 0.08; }
+    .tab-btn.active {
+      color: var(--md-primary);
+      border-bottom-color: var(--md-primary);
+    }
+    .tab-btn.done { color: #386A20; border-bottom-color: #386A20; }
+    .tab-icon {
+      width: 20px; height: 20px; border-radius: var(--md-shape-full);
+      background: transparent;
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; flex-shrink: 0;
-      transition: all 0.15s;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+      border: 1.5px solid currentColor;
+      transition: background 0.15s, color 0.15s;
     }
-    .step-btn.active .step-num { background: var(--red); color: #fff; border-color: var(--red); }
-    .step-btn.done .step-num { background: var(--green); color: #fff; border-color: var(--green); }
+    .tab-btn.active .tab-icon {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      border-color: var(--md-primary-container);
+    }
+    .tab-btn.done .tab-icon {
+      background: #C2E7B0; color: #1A3409; border-color: #C2E7B0;
+    }
 
     /* ── SLIDES ── */
-    .slides-wrap { flex: 1; }
-    .slide { display: none; animation: fadeUp 0.3s ease; }
+    .slides { flex: 1; }
+    .slide { display: none; animation: mdFade 0.25s ease; }
     .slide.active { display: block; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @keyframes mdFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-    /* ── OVERVIEW HERO ── */
-    .ov-hero {
-      background: linear-gradient(135deg, #fff 0%, #fdf8f8 50%, #f8faff 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 64px 28px 52px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    /* ── HERO (Overview) ── */
+    .hero {
+      background: var(--md-surface);
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 56px 24px 48px; text-align: center;
+      position: relative; overflow: hidden;
     }
-    .ov-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(192,57,43,.06) 0%, transparent 70%);
-      pointer-events: none;
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, var(--md-primary-container) 0%, transparent 70%);
+      opacity: .4; pointer-events: none;
     }
-    .ov-pill {
+    .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 6px;
-      background: var(--red-lt); color: var(--red);
-      font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
-      text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
-      border: 1px solid var(--red-mid); margin-bottom: 20px;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 11px; font-weight: 500; letter-spacing: 0.5px;
+      padding: 5px 14px; border-radius: var(--md-shape-full); margin-bottom: 20px;
     }
-    .ov-hero h1 {
-      font-size: clamp(28px, 4.5vw, 52px);
-      font-weight: 900; line-height: 1.12; letter-spacing: -1.5px;
-      color: var(--text); margin-bottom: 16px;
+    .hero h1 {
+      font-family: 'Roboto Flex', 'Roboto', sans-serif;
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 300; letter-spacing: -1px; line-height: 1.1;
+      color: var(--md-on-surface); margin-bottom: 14px;
     }
-    .ov-hero h1 em { color: var(--red); font-style: normal; }
-    .ov-hero p { font-size: 16px; color: var(--muted); max-width: 540px; margin: 0 auto 36px; line-height: 1.65; }
-    .hero-stats {
-      display: inline-flex; gap: 0;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; box-shadow: var(--shadow);
-      overflow: hidden;
+    .hero h1 strong { font-weight: 700; color: var(--md-primary); }
+    .hero p { font-size: 16px; color: var(--md-on-surface-variant); max-width: 540px; margin: 0 auto 36px; line-height: 1.65; font-weight: 400; }
+    /* MD3 stats row as a "suggestion chip" group */
+    .stat-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .stat-chip {
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--md-surface-container-lowest);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      padding: 14px 22px;
+      box-shadow: var(--md-shadow1);
     }
-    .hstat {
-      padding: 18px 28px; text-align: center;
-      border-right: 1px solid var(--border);
-    }
-    .hstat:last-child { border-right: none; }
-    .hstat .n { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
-    .hstat .n.green { color: var(--green); }
-    .hstat .l { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-chip .sn { font-size: 22px; font-weight: 700; color: var(--md-primary); letter-spacing: -0.5px; }
+    .stat-chip .sl { font-size: 11px; color: var(--md-on-surface-variant); font-weight: 500; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* ── OVERVIEW GRID ── */
     .ov-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 16px; padding: 36px 28px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px; padding: 28px 20px;
       max-width: 1120px; margin: 0 auto;
     }
+    /* MD3 Filled Card */
     .ov-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px 22px;
-      cursor: pointer; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-      display: flex; gap: 16px; align-items: flex-start;
-      box-shadow: var(--shadow-sm);
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-xl);
+      padding: 20px; cursor: pointer;
+      box-shadow: var(--md-shadow1);
+      border: 1px solid var(--md-outline-variant);
+      display: flex; gap: 14px; align-items: flex-start;
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.2s;
     }
-    .ov-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--border2); }
-    .ov-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: var(--red); color: #fff;
+    .ov-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--md-primary); opacity: 0;
+      border-radius: inherit; transition: opacity 0.15s;
+    }
+    .ov-card:hover { box-shadow: var(--md-shadow3); }
+    .ov-card:hover::after { opacity: 0.05; }
+    .ov-num {
+      width: 40px; height: 40px; border-radius: var(--md-shape-md);
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 14px; flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(192,57,43,.25);
+      font-weight: 700; font-size: 14px; flex-shrink: 0;
     }
-    .ov-card:last-of-type .ov-icon { background: linear-gradient(135deg, var(--red), #e74c3c); }
-    .ov-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; letter-spacing: -0.2px; }
-    .ov-card p { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
-    .ov-meta { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
-    .ov-tag {
-      font-size: 10px; font-weight: 600; color: var(--red);
-      background: var(--red-lt); border-radius: 4px; padding: 2px 7px;
+    .ov-card h3 { font-size: 14px; font-weight: 500; color: var(--md-on-surface); margin-bottom: 5px; line-height: 1.4; }
+    .ov-card p { font-size: 12.5px; color: var(--md-on-surface-variant); line-height: 1.55; }
+    .ov-label {
+      display: inline-block; margin-top: 10px;
+      background: var(--md-surface-container-high);
+      color: var(--md-on-surface-variant);
+      font-size: 11px; font-weight: 500;
+      padding: 3px 10px; border-radius: var(--md-shape-full);
     }
 
-    /* ── STAGE SLIDES ── */
-    .stage-wrap { max-width: 920px; margin: 0 auto; padding: 44px 28px 40px; }
-    .stage-eyebrow {
+    /* ── STAGE SLIDE ── */
+    .stage { max-width: 920px; margin: 0 auto; padding: 40px 20px 44px; }
+
+    /* MD3 Headline / Title type scale */
+    .stage-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--md-primary); margin-bottom: 10px;
+    }
+    .stage-label span {
+      width: 24px; height: 24px; border-radius: var(--md-shape-full);
+      background: var(--md-primary-container); color: var(--md-on-primary-container);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .stage-headline {
+      font-family: 'Roboto Flex', 'Roboto', sans-serif;
+      font-size: clamp(22px, 3.5vw, 36px);
+      font-weight: 400; letter-spacing: -0.5px; line-height: 1.2;
+      color: var(--md-on-surface); margin-bottom: 12px;
+    }
+    .stage-body { font-size: 15px; color: var(--md-on-surface-variant); max-width: 700px; line-height: 1.7; }
+
+    /* MD3 Filter Chips */
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .md-chip {
       display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: var(--red);
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
-    }
-    .stage-eyebrow .dot-sep { width: 4px; height: 4px; background: var(--red-mid); border-radius: 50%; }
-    .stage-title {
-      font-size: clamp(22px, 3.5vw, 36px); font-weight: 800;
-      letter-spacing: -0.8px; line-height: 1.15; color: var(--text); margin-bottom: 12px;
-    }
-    .stage-desc { font-size: 15px; color: var(--sub); max-width: 680px; line-height: 1.7; }
-    .stage-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-    .chip {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 5px 12px;
-      font-size: 12px; font-weight: 500; color: var(--sub);
-      box-shadow: var(--shadow-sm);
+      height: 32px; padding: 0 12px;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-highest);
+      border: 1px solid var(--md-outline);
+      font-size: 13px; font-weight: 500; color: var(--md-on-surface-variant);
     }
 
-    .res-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 14px; margin-top: 28px;
-    }
+    /* MD3 resource cards (Elevated Card) */
+    .res-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; margin-top: 24px; }
     .res-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px 20px;
-      box-shadow: var(--shadow-sm);
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-xl);
+      padding: 18px 20px;
+      box-shadow: var(--md-shadow1);
     }
-    .res-card-head {
+    .res-head {
       display: flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.8px;
-      margin-bottom: 12px;
+      font-size: 11px; font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--md-on-surface-variant);
+      margin-bottom: 14px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--md-outline-variant);
     }
-    .res-card-head .hico {
-      width: 22px; height: 22px; border-radius: 6px;
-      background: var(--surface2); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center; font-size: 11px;
+    .res-ico {
+      width: 28px; height: 28px; border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-highest);
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
     }
     .res-list { display: flex; flex-direction: column; gap: 6px; }
-    .res-link {
-      display: flex; align-items: center; gap: 9px;
-      text-decoration: none; color: var(--sub); font-size: 13px; font-weight: 500;
-      padding: 9px 11px;
-      background: var(--bg); border-radius: 9px;
-      border: 1px solid var(--border);
-      transition: background 0.12s, border-color 0.12s, transform 0.12s;
-    }
-    .res-link:hover { background: var(--surface); border-color: var(--border2); transform: translateX(2px); }
-    .badge {
-      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 5px;
-      flex-shrink: 0; letter-spacing: 0.4px; white-space: nowrap;
-    }
-    .b-free   { background: var(--green-lt);  color: var(--green);  border: 1px solid #a7f3d0; }
-    .b-vid    { background: #fff1f2;           color: #e11d48;       border: 1px solid #fecdd3; }
-    .b-art    { background: var(--blue-lt);   color: var(--blue);   border: 1px solid #bfdbfe; }
-    .b-tool   { background: var(--purple-lt); color: var(--purple); border: 1px solid #ddd6fe; }
-    .b-book   { background: var(--amber-lt);  color: var(--amber);  border: 1px solid #fde68a; }
 
-    .practice {
-      margin-top: 22px;
-      background: linear-gradient(135deg, var(--red-lt) 0%, #fff8f8 100%);
-      border: 1px solid var(--red-mid); border-radius: 14px; padding: 18px 22px;
+    /* MD3 List Item style for resource links */
+    .res-link {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--md-on-surface);
+      font-size: 13px; font-weight: 400;
+      padding: 10px 12px; border-radius: var(--md-shape-md);
+      position: relative; overflow: hidden;
+      transition: background 0.15s;
+    }
+    .res-link::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--md-on-surface); opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .res-link:hover::before { opacity: 0.08; }
+    .res-link:hover { background: var(--md-surface-container); }
+
+    /* MD3 Assist Chips as badges */
+    .badge {
+      display: inline-flex; align-items: center;
+      height: 24px; padding: 0 8px; border-radius: var(--md-shape-full);
+      font-size: 10px; font-weight: 500; flex-shrink: 0; white-space: nowrap;
+    }
+    .b-free   { background: #C2E7B0; color: #1A3409; }
+    .b-vid    { background: #FAD2CF; color: #410E0B; }
+    .b-art    { background: #C4E7FF; color: #001E2C; }
+    .b-tool   { background: #E8DEF8; color: #21005D; }
+    .b-book   { background: #FFDDB3; color: #261900; }
+
+    /* MD3 practice box — "Notice" tonal surface */
+    .practice-card {
+      margin-top: 20px;
+      background: var(--md-primary-container);
+      border-radius: var(--md-shape-xl);
+      padding: 20px 22px;
       display: flex; gap: 14px; align-items: flex-start;
     }
-    .practice-ico {
-      width: 34px; height: 34px; border-radius: 10px;
-      background: var(--red); color: #fff;
+    .practice-icon {
+      width: 36px; height: 36px; border-radius: var(--md-shape-full);
+      background: var(--md-primary);
+      color: var(--md-on-primary);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(192,57,43,.2);
     }
-    .practice h4 { font-size: 12px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
-    .practice p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+    .practice-card h4 {
+      font-size: 13px; font-weight: 500; color: var(--md-on-primary-container);
+      margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .practice-card p { font-size: 13px; color: var(--md-on-primary-container); line-height: 1.65; opacity: .85; }
 
     /* ── CAPSTONE ── */
-    .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-top: 28px; }
+    .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 24px; }
     .cap-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 22px 20px;
-      box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-xl); padding: 22px 20px;
+      box-shadow: var(--md-shadow1); position: relative; overflow: hidden;
     }
-    .cap-card::after {
-      content: attr(data-n);
-      position: absolute; right: 16px; top: 12px;
-      font-size: 42px; font-weight: 900; color: var(--border);
-      line-height: 1; pointer-events: none; letter-spacing: -2px;
+    .cap-card .bg-num {
+      position: absolute; right: 12px; top: 8px;
+      font-size: 48px; font-weight: 900;
+      color: var(--md-outline-variant); line-height: 1;
+      letter-spacing: -3px; pointer-events: none;
     }
-    .cap-card h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .cap-card p { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.55; }
-
-    /* ── TRACKER ── */
-    .prog-wrap { height: 6px; background: var(--surface2); border-radius: 99px; overflow: hidden; margin: 6px 0 4px; }
-    .prog-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--red) 0%, #e74c3c 100%); width: 0%; transition: width 0.5s ease; }
-    .prog-label { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
-    .prog-label strong { color: var(--text); font-weight: 600; }
-
-    .chk-list { display: flex; flex-direction: column; gap: 8px; }
-    .chk-item {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 14px;
-      font-size: 13px; font-weight: 500; color: var(--sub);
-      cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
-      box-shadow: var(--shadow-sm);
-    }
-    .chk-item:hover { border-color: var(--red); }
-    .chk-item input[type="checkbox"] {
-      width: 16px; height: 16px;
-      accent-color: var(--red); flex-shrink: 0; cursor: pointer;
-    }
-    .chk-item label { cursor: pointer; flex: 1; }
-    .chk-item label.done { text-decoration: line-through; color: var(--muted); }
-    .chk-item.is-done { background: var(--green-lt); border-color: #a7f3d0; }
+    .cap-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+    .cap-card p { font-size: 13px; color: var(--md-on-surface-variant); margin-bottom: 14px; line-height: 1.6; }
 
     /* ── DIVIDER ── */
-    .sep { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+    .md-divider { border: none; border-top: 1px solid var(--md-outline-variant); margin: 28px 0; }
 
-    /* ── SECTION LABEL ── */
-    .sec-label {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 11px; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+    /* MD3 section header */
+    .section-title {
+      font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--md-on-surface-variant);
+      margin-bottom: 14px;
     }
-    .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    /* ── BOTTOM NAV ── */
-    .bottom-nav {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
+    /* ── TRACKER ── */
+    /* MD3 Linear Progress Indicator */
+    .progress-track {
+      height: 4px; background: var(--md-surface-container-highest);
+      border-radius: var(--md-shape-full); overflow: hidden; margin: 8px 0 6px;
+    }
+    .progress-fill {
+      height: 100%; border-radius: var(--md-shape-full);
+      background: var(--md-primary); width: 0%; transition: width 0.5s ease;
+    }
+    .progress-label { font-size: 13px; color: var(--md-on-surface-variant); margin-bottom: 24px; }
+    .progress-label strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .chk-list { display: flex; flex-direction: column; gap: 2px; }
+    /* MD3 List Item */
+    .chk-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--md-shape-sm);
+      font-size: 14px; font-weight: 400; color: var(--md-on-surface);
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: background 0.15s;
+    }
+    .chk-item:hover { background: var(--md-surface-container); }
+    .chk-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--md-primary); flex-shrink: 0; cursor: pointer; }
+    .chk-item label { cursor: pointer; flex: 1; }
+    .chk-item label.done { text-decoration: line-through; color: var(--md-on-surface-variant); }
+    .chk-item.is-done { color: var(--md-on-surface-variant); }
+
+    /* ── MD3 NAVIGATION BAR (bottom) ── */
+    .bottom-bar {
+      background: var(--md-surface-container);
+      border-top: 1px solid var(--md-outline-variant);
       padding: 12px 24px;
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      position: sticky; bottom: 0; z-index: 200;
-      box-shadow: 0 -4px 20px rgba(0,0,0,.06);
+      position: sticky; bottom: 0; z-index: 300;
+      box-shadow: 0 -1px 3px rgba(0,0,0,.08);
     }
-    .nav-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 20px; border-radius: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      border: 1px solid var(--border); background: var(--surface); color: var(--sub);
-      transition: all 0.15s; box-shadow: var(--shadow-sm);
-    }
-    .nav-btn:hover:not(:disabled) { background: var(--surface2); border-color: var(--border2); }
-    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
-    .nav-btn.primary {
-      background: var(--red); border-color: var(--red); color: #fff;
-      box-shadow: 0 2px 8px rgba(192,57,43,.3);
-    }
-    .nav-btn.primary:hover:not(:disabled) { background: #a93226; border-color: #a93226; box-shadow: 0 4px 14px rgba(192,57,43,.4); }
-    .nav-btn.play {
-      background: var(--green-lt); border-color: #a7f3d0; color: var(--green);
-      box-shadow: 0 2px 8px rgba(5,150,105,.1);
-    }
-    .nav-btn.play:hover { background: #d1fae5; }
 
-    .nav-center { display: flex; align-items: center; gap: 12px; }
-    .pdots { display: flex; gap: 4px; align-items: center; }
-    .pdot {
-      width: 6px; height: 6px; border-radius: 99px;
-      background: var(--border2); cursor: pointer;
-      transition: all 0.2s;
+    /* MD3 Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 40px; padding: 0 24px;
+      border-radius: var(--md-shape-full);
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.1px;
+      cursor: pointer; border: none;
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.2s;
     }
-    .pdot.active { background: var(--red); width: 20px; }
-    .pdot.done { background: var(--green); }
+    .btn::after {
+      content: ''; position: absolute; inset: 0;
+      background: currentColor; opacity: 0; transition: opacity 0.15s;
+    }
+    .btn:hover::after { opacity: 0.08; }
+    .btn:active::after { opacity: 0.12; }
+    .btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    /* Filled button */
+    .btn-filled { background: var(--md-primary); color: var(--md-on-primary); box-shadow: var(--md-shadow1); }
+    .btn-filled:hover:not(:disabled) { box-shadow: var(--md-shadow2); }
+
+    /* Outlined button */
+    .btn-outlined { background: transparent; color: var(--md-primary); border: 1px solid var(--md-outline); }
+
+    /* Tonal button */
+    .btn-tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: var(--md-shadow1); }
+    .btn-tonal:hover:not(:disabled) { box-shadow: var(--md-shadow2); }
+
+    .nav-center { display: flex; align-items: center; gap: 10px; }
+
+    /* Dots as MD3 Page Indicators */
+    .page-dots { display: flex; gap: 6px; align-items: center; }
+    .pdot {
+      width: 8px; height: 8px; border-radius: var(--md-shape-full);
+      background: var(--md-outline-variant); cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pdot.active { background: var(--md-primary); width: 24px; border-radius: var(--md-shape-full); }
+    .pdot.done { background: #386A20; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      .step-btn .step-label { display: none; }
+      .tab-btn .tab-label { display: none; }
       .ov-grid, .res-grid, .cap-grid { grid-template-columns: 1fr; }
-      .hero-stats { display: grid; grid-template-columns: repeat(2,1fr); }
-      .hstat { border-right: none; border-bottom: 1px solid var(--border); }
-      .hstat:nth-child(odd) { border-right: 1px solid var(--border); }
-      .hstat:last-child, .hstat:nth-last-child(-n+2):not(:nth-child(odd)) { border-bottom: none; }
-      .ov-hero { padding: 40px 16px 32px; }
-      .stage-wrap { padding: 28px 16px 24px; }
+      .stat-row { gap: 6px; }
+      .stage { padding: 28px 16px 32px; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">DS</div>
-    <div class="topbar-brand">Data Science for <span>Business</span></div>
-    <span class="topbar-badge">Free Edition</span>
+<!-- MD3 TOP APP BAR -->
+<header class="app-bar">
+  <div class="app-bar-leading">
+    <div class="app-bar-icon">DS</div>
+    <span class="app-bar-title">Data Science for <strong>Business</strong></span>
   </div>
-  <div class="topbar-right">
-    <div class="topbar-stage">Stage <strong id="slideLabel">Overview</strong> / 9</div>
+  <div class="app-bar-actions">
+    <span class="app-bar-chip">Stage <strong id="slideLabel">Overview</strong> / 9</span>
   </div>
 </header>
 
-<!-- STEP BAR -->
-<nav class="step-bar">
-  <div class="step-list" id="stepList">
-    <button class="step-btn active" onclick="goTo(0)"><span class="step-num">&#8962;</span><span class="step-label">Overview</span></button>
-    <button class="step-btn" onclick="goTo(1)"><span class="step-num">1</span><span class="step-label">Foundations</span></button>
-    <button class="step-btn" onclick="goTo(2)"><span class="step-num">2</span><span class="step-label">Statistics</span></button>
-    <button class="step-btn" onclick="goTo(3)"><span class="step-num">3</span><span class="step-label">Data Quality</span></button>
-    <button class="step-btn" onclick="goTo(4)"><span class="step-num">4</span><span class="step-label">Visualization</span></button>
-    <button class="step-btn" onclick="goTo(5)"><span class="step-num">5</span><span class="step-label">Regression</span></button>
-    <button class="step-btn" onclick="goTo(6)"><span class="step-num">6</span><span class="step-label">R &amp; Tools</span></button>
-    <button class="step-btn" onclick="goTo(7)"><span class="step-num">7</span><span class="step-label">ML &amp; A/B</span></button>
-    <button class="step-btn" onclick="goTo(8)"><span class="step-num">&#9733;</span><span class="step-label">Capstone</span></button>
-    <button class="step-btn" onclick="goTo(9)"><span class="step-num">&#10003;</span><span class="step-label">Tracker</span></button>
+<!-- MD3 TAB ROW -->
+<nav class="nav-tabs">
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" onclick="goTo(0)"><span class="tab-icon">&#8962;</span><span class="tab-label">Overview</span></button>
+    <button class="tab-btn" onclick="goTo(1)"><span class="tab-icon">1</span><span class="tab-label">Foundations</span></button>
+    <button class="tab-btn" onclick="goTo(2)"><span class="tab-icon">2</span><span class="tab-label">Statistics</span></button>
+    <button class="tab-btn" onclick="goTo(3)"><span class="tab-icon">3</span><span class="tab-label">Data Quality</span></button>
+    <button class="tab-btn" onclick="goTo(4)"><span class="tab-icon">4</span><span class="tab-label">Visualization</span></button>
+    <button class="tab-btn" onclick="goTo(5)"><span class="tab-icon">5</span><span class="tab-label">Regression</span></button>
+    <button class="tab-btn" onclick="goTo(6)"><span class="tab-icon">6</span><span class="tab-label">R &amp; Tools</span></button>
+    <button class="tab-btn" onclick="goTo(7)"><span class="tab-icon">7</span><span class="tab-label">ML &amp; A/B</span></button>
+    <button class="tab-btn" onclick="goTo(8)"><span class="tab-icon">&#9733;</span><span class="tab-label">Capstone</span></button>
+    <button class="tab-btn" onclick="goTo(9)"><span class="tab-icon">&#10003;</span><span class="tab-label">Tracker</span></button>
   </div>
 </nav>
 
-<div class="slides-wrap">
+<div class="slides">
 
   <!-- SLIDE 0: OVERVIEW -->
   <div class="slide active" id="slide-0">
-    <div class="ov-hero">
-      <div class="ov-pill">&#128218; Free Self-Study Edition</div>
-      <h1>Data Science for <em>Business</em></h1>
+    <div class="hero">
+      <div class="hero-eyebrow">&#127891; Free Self-Study Edition</div>
+      <h1>Data Science for <strong>Business</strong></h1>
       <p>Equivalent curriculum to Harvard&rsquo;s $1,600 course &mdash; 7 structured stages, curated free resources, and hands-on practice tasks.</p>
-      <div class="hero-stats">
-        <div class="hstat"><div class="n">7</div><div class="l">Stages</div></div>
-        <div class="hstat"><div class="n green">4&ndash;5h</div><div class="l">Per Week</div></div>
-        <div class="hstat"><div class="n">4 wks</div><div class="l">Duration</div></div>
-        <div class="hstat"><div class="n green">$0</div><div class="l">Total Cost</div></div>
+      <div class="stat-row">
+        <div class="stat-chip"><div class="sn">7</div><div class="sl">Stages</div></div>
+        <div class="stat-chip"><div class="sn">4&ndash;5h</div><div class="sl">Per Week</div></div>
+        <div class="stat-chip"><div class="sn">4 wks</div><div class="sl">Duration</div></div>
+        <div class="stat-chip"><div class="sn">$0</div><div class="sl">Cost</div></div>
       </div>
     </div>
+
     <div class="ov-grid">
       <div class="ov-card" onclick="goTo(1)">
-        <div class="ov-icon">1</div>
-        <div>
-          <h3>Foundations of Data Science</h3>
-          <p>What is data science? Types of data, business questions, and the analytics pipeline.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 1 &middot; ~5h</span></div>
-        </div>
+        <div class="ov-num">1</div>
+        <div><h3>Foundations of Data Science</h3><p>What is data science? Types of data, business questions, and the analytics pipeline.</p><span class="ov-label">Week 1 &middot; ~5h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(2)">
-        <div class="ov-icon">2</div>
-        <div>
-          <h3>Statistics &amp; Probability</h3>
-          <p>Mean, median, variance, distributions, p-values and hypothesis testing for business.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 1&ndash;2 &middot; ~6h</span></div>
-        </div>
+        <div class="ov-num">2</div>
+        <div><h3>Statistics &amp; Probability</h3><p>Mean, median, variance, distributions, p-values and hypothesis testing for business.</p><span class="ov-label">Week 1&ndash;2 &middot; ~6h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(3)">
-        <div class="ov-icon">3</div>
-        <div>
-          <h3>Data Quality &amp; Curation</h3>
-          <p>Identify bad data, missing values, outliers, and biased datasets before analysis.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 2 &middot; ~4h</span></div>
-        </div>
+        <div class="ov-num">3</div>
+        <div><h3>Data Quality &amp; Curation</h3><p>Identify bad data, missing values, outliers, and biased datasets before analysis.</p><span class="ov-label">Week 2 &middot; ~4h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(4)">
-        <div class="ov-icon">4</div>
-        <div>
-          <h3>Data Visualization &amp; Storytelling</h3>
-          <p>Chart types, design principles, and communicating insights to business audiences.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 2 &middot; ~5h</span></div>
-        </div>
+        <div class="ov-num">4</div>
+        <div><h3>Data Visualization &amp; Storytelling</h3><p>Chart types, design principles, and communicating insights to business audiences.</p><span class="ov-label">Week 2 &middot; ~5h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(5)">
-        <div class="ov-icon">5</div>
-        <div>
-          <h3>Regression &amp; Forecasting</h3>
-          <p>Linear regression, R-squared, multiple regression, and forecasting for business planning.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 3 &middot; ~6h</span></div>
-        </div>
+        <div class="ov-num">5</div>
+        <div><h3>Regression &amp; Forecasting</h3><p>Linear regression, R-squared, multiple regression, and forecasting for business planning.</p><span class="ov-label">Week 3 &middot; ~6h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(6)">
-        <div class="ov-icon">6</div>
-        <div>
-          <h3>Reading R Code &amp; Tools</h3>
-          <p>Read R syntax at a conceptual level; understand data team outputs and requests.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 3 &middot; ~4h</span></div>
-        </div>
+        <div class="ov-num">6</div>
+        <div><h3>Reading R Code &amp; Tools</h3><p>Read R syntax at a conceptual level; understand data team outputs and requests.</p><span class="ov-label">Week 3 &middot; ~4h</span></div>
       </div>
       <div class="ov-card" onclick="goTo(7)">
-        <div class="ov-icon">7</div>
-        <div>
-          <h3>Machine Learning &amp; A/B Testing</h3>
-          <p>Classification, clustering, and A/B testing for business experiments at scale.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 4 &middot; ~5h</span></div>
-        </div>
+        <div class="ov-num">7</div>
+        <div><h3>Machine Learning &amp; A/B Testing</h3><p>Classification, clustering, and A/B testing for business experiments at scale.</p><span class="ov-label">Week 4 &middot; ~5h</span></div>
       </div>
-      <div class="ov-card" onclick="goTo(8)" style="border-color:#fecaca">
-        <div class="ov-icon" style="background:linear-gradient(135deg,#c0392b,#e74c3c)">&#9733;</div>
-        <div>
-          <h3>Capstone Project</h3>
-          <p>Apply everything to a real dataset and write a 1-page business recommendation.</p>
-          <div class="ov-meta"><span class="ov-tag">Week 4 &middot; Final</span></div>
-        </div>
+      <div class="ov-card" onclick="goTo(8)">
+        <div class="ov-num" style="background:var(--md-tertiary-container);color:var(--md-tertiary)">&#9733;</div>
+        <div><h3>Capstone Project</h3><p>Apply everything to a real dataset and write a 1-page business recommendation.</p><span class="ov-label">Week 4 &middot; Final</span></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 1 -->
   <div class="slide" id="slide-1">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 1 of 7 <span class="dot-sep"></span> Week 1</div>
-      <div class="stage-title">Foundations of Data Science for Business</div>
-      <div class="stage-desc">Understand what data science is, how it fits into business strategy, and the end-to-end data pipeline. Learn why data-driven decisions outperform intuition alone.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 1</span>
-        <span class="chip">&#8987; ~5 hours</span>
-        <span class="chip">&#128202; Introductory</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>1</span> Stage 1 of 7</div>
+      <div class="stage-headline">Foundations of Data Science for Business</div>
+      <div class="stage-body">Understand what data science is, how it fits into business strategy, and the end-to-end data pipeline. Learn why data-driven decisions outperform intuition alone.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 1</span><span class="md-chip">&#8987; ~5 hours</span><span class="md-chip">&#128202; Introductory</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> Watch First</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> Watch First</div>
           <div class="res-list">
             <a class="res-link" href="https://www.youtube.com/watch?v=X3paOmcrTjQ" target="_blank"><span class="badge b-vid">VIDEO</span> What is Data Science? &mdash; IBM</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=ua-CiDNNj30" target="_blank"><span class="badge b-vid">VIDEO</span> Data Science for Business &mdash; freeCodeCamp (4h)</a>
@@ -516,7 +554,7 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128214;</div> Read Next</div>
+          <div class="res-head"><div class="res-ico">&#128214;</div> Read Next</div>
           <div class="res-list">
             <a class="res-link" href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Intro to ML (interactive)</a>
             <a class="res-link" href="https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Data Scientist &mdash; Sexiest Job</a>
@@ -524,30 +562,23 @@
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Pick a business problem you care about. Write down 3 questions you would want data to answer. This framing exercise is how Harvard opens the course.</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Pick a business problem you care about. Write down 3 questions you would want data to answer. This framing exercise is how Harvard opens the course.</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 2 -->
   <div class="slide" id="slide-2">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 2 of 7 <span class="dot-sep"></span> Week 1&ndash;2</div>
-      <div class="stage-title">Statistics &amp; Probability for Decision-Making</div>
-      <div class="stage-desc">Learn to read, interpret, and question statistics. Understand the measures businesses use every day &mdash; and the common mistakes that lead decisions astray.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 1&ndash;2</span>
-        <span class="chip">&#8987; ~6 hours</span>
-        <span class="chip">&#128202; Foundational</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>2</span> Stage 2 of 7</div>
+      <div class="stage-headline">Statistics &amp; Probability for Decision-Making</div>
+      <div class="stage-body">Learn to read, interpret, and question statistics. Understand the measures businesses use every day &mdash; and the common mistakes that lead decisions astray.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 1&ndash;2</span><span class="md-chip">&#8987; ~6 hours</span><span class="md-chip">&#128202; Foundational</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> Core Courses</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> Core Courses</div>
           <div class="res-list">
             <a class="res-link" href="https://www.khanacademy.org/math/statistics-probability" target="_blank"><span class="badge b-free">FREE</span> Khan Academy: Statistics &amp; Probability</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=xxpc-HPKN28" target="_blank"><span class="badge b-vid">VIDEO</span> Statistics for Data Science &mdash; Simplilearn</a>
@@ -555,7 +586,7 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128214;</div> Business Focus</div>
+          <div class="res-head"><div class="res-ico">&#128214;</div> Business Focus</div>
           <div class="res-list">
             <a class="res-link" href="https://hbr.org/2016/02/a-refresher-on-statistical-significance" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Statistical Significance Refresher</a>
             <a class="res-link" href="https://hbr.org/2014/05/an-introduction-to-statistical-methods-and-data-analysis" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Intro to Statistical Methods</a>
@@ -563,67 +594,53 @@
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Take any news headline with a statistic. Find the sample size, baseline, and confidence interval. Ask: is this statistically significant or just noise?</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Take any news headline with a statistic. Find the sample size, baseline, and confidence interval. Ask: is this statistically significant or just noise?</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 3 -->
   <div class="slide" id="slide-3">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 3 of 7 <span class="dot-sep"></span> Week 2</div>
-      <div class="stage-title">Data Quality &amp; Curation</div>
-      <div class="stage-desc">Learn how data is collected, cleaned, and prepared. Identify missing data, outliers, and biased datasets &mdash; the most common source of wrong business decisions.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 2</span>
-        <span class="chip">&#8987; ~4 hours</span>
-        <span class="chip">&#128295; Practical</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>3</span> Stage 3 of 7</div>
+      <div class="stage-headline">Data Quality &amp; Curation</div>
+      <div class="stage-body">Learn how data is collected, cleaned, and prepared. Identify missing data, outliers, and biased datasets &mdash; the most common source of wrong business decisions.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 2</span><span class="md-chip">&#8987; ~4 hours</span><span class="md-chip">&#128295; Practical</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> Data Cleaning</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> Data Cleaning</div>
           <div class="res-list">
             <a class="res-link" href="https://www.kaggle.com/learn/data-cleaning" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Data Cleaning (interactive)</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=ht3wDmmbGg8" target="_blank"><span class="badge b-vid">VIDEO</span> Data Wrangling Crash Course</a>
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128214;</div> Data Quality Concepts</div>
+          <div class="res-head"><div class="res-ico">&#128214;</div> Data Quality Concepts</div>
           <div class="res-list">
             <a class="res-link" href="https://hbr.org/2018/04/if-your-data-is-bad-your-machine-learning-tools-are-useless" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Bad Data = Useless ML</a>
             <a class="res-link" href="https://towardsdatascience.com/data-quality-dimensions-measuring-data-quality-6e3e03f5bdbd" target="_blank"><span class="badge b-art">ARTICLE</span> Data Quality Dimensions Explained</a>
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Download any CSV from <a href="https://www.kaggle.com/datasets" target="_blank" style="color:var(--red);font-weight:600">Kaggle Datasets</a>. Open in Google Sheets. Count blank cells, spot outliers in one column, and describe the cleaning steps needed before analysis.</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Download any CSV from <a href="https://www.kaggle.com/datasets" target="_blank" style="color:var(--md-primary);font-weight:500">Kaggle Datasets</a>. Open in Google Sheets. Count blank cells, spot outliers in one column, and describe the cleaning steps needed.</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 4 -->
   <div class="slide" id="slide-4">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 4 of 7 <span class="dot-sep"></span> Week 2</div>
-      <div class="stage-title">Data Visualization &amp; Storytelling</div>
-      <div class="stage-desc">Create charts that communicate insight clearly. Learn when to use bar vs. line vs. scatter, and how to build a data-driven narrative for non-technical executives.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 2</span>
-        <span class="chip">&#8987; ~5 hours</span>
-        <span class="chip">&#128295; Hands-on</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>4</span> Stage 4 of 7</div>
+      <div class="stage-headline">Data Visualization &amp; Storytelling</div>
+      <div class="stage-body">Create charts that communicate insight clearly. Learn when to use bar vs. line vs. scatter, and how to build a data-driven narrative for non-technical executives.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 2</span><span class="md-chip">&#8987; ~5 hours</span><span class="md-chip">&#128295; Hands-on</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> Courses</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> Courses</div>
           <div class="res-list">
             <a class="res-link" href="https://www.kaggle.com/learn/data-visualization" target="_blank"><span class="badge b-free">FREE</span> Kaggle: Data Visualization (interactive)</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=8EMW7io4rSI" target="_blank"><span class="badge b-vid">VIDEO</span> Data Viz Best Practices &mdash; Google</a>
@@ -631,7 +648,7 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128295;</div> Free Tools</div>
+          <div class="res-head"><div class="res-ico">&#128295;</div> Free Tools</div>
           <div class="res-list">
             <a class="res-link" href="https://public.tableau.com/en/gallery" target="_blank"><span class="badge b-tool">TOOL</span> Tableau Public &mdash; free dashboards</a>
             <a class="res-link" href="https://flourish.studio/" target="_blank"><span class="badge b-tool">TOOL</span> Flourish &mdash; no-code data stories</a>
@@ -639,43 +656,36 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128214;</div> Reading</div>
+          <div class="res-head"><div class="res-ico">&#128214;</div> Reading</div>
           <div class="res-list">
             <a class="res-link" href="https://www.storytellingwithdata.com/blog" target="_blank"><span class="badge b-art">ARTICLE</span> Storytelling with Data &mdash; free blog</a>
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Using your Stage 3 dataset, build 3 charts in Tableau Public or Flourish: one bar chart, one line trend, one scatter. Write one sentence of insight per chart.</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Using your Stage 3 dataset, build 3 charts in Tableau Public or Flourish: one bar chart, one line trend, one scatter. Write one sentence of insight per chart.</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 5 -->
   <div class="slide" id="slide-5">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 5 of 7 <span class="dot-sep"></span> Week 3</div>
-      <div class="stage-title">Regression Models &amp; Forecasting</div>
-      <div class="stage-desc">The core of the Harvard course. Understand linear regression, R-squared, multiple variables, and how to forecast sales or revenue &mdash; and how to read the output critically.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 3</span>
-        <span class="chip">&#8987; ~6 hours</span>
-        <span class="chip">&#128202; Core Skill</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>5</span> Stage 5 of 7</div>
+      <div class="stage-headline">Regression Models &amp; Forecasting</div>
+      <div class="stage-body">The core of the Harvard course. Understand linear regression, R-squared, multiple variables, and how to forecast sales or revenue &mdash; and how to read the output critically.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 3</span><span class="md-chip">&#8987; ~6 hours</span><span class="md-chip">&#128202; Core Skill</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> Regression Videos</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> Regression Videos</div>
           <div class="res-list">
             <a class="res-link" href="https://www.youtube.com/watch?v=nk2CQITm_eo" target="_blank"><span class="badge b-vid">VIDEO</span> Linear Regression &mdash; StatQuest &#11088;</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=aq8VU5KLmkY" target="_blank"><span class="badge b-vid">VIDEO</span> Multiple Regression &mdash; StatQuest</a>
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128214;</div> Business Regression</div>
+          <div class="res-head"><div class="res-ico">&#128214;</div> Business Regression</div>
           <div class="res-list">
             <a class="res-link" href="https://hbr.org/2015/11/a-refresher-on-regression-analysis" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: Regression Analysis Refresher &#11088;</a>
             <a class="res-link" href="https://www.coursera.org/learn/regression-models" target="_blank"><span class="badge b-free">FREE</span> Coursera: Regression Models in R (audit)</a>
@@ -683,30 +693,23 @@
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>In Google Sheets, create a simple linear regression (e.g. ad spend vs. revenue). Use <code style="background:var(--red-lt);color:var(--red);padding:1px 5px;border-radius:4px;font-size:12px">LINEST()</code> to get the slope and R&sup2;. What does R&sup2; tell you about predictive power?</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>In Google Sheets, create a simple linear regression (e.g. ad spend vs. revenue). Use <code style="background:var(--md-secondary-container);padding:1px 6px;border-radius:4px;font-size:12px">LINEST()</code> to get the slope and R&sup2;. What does R&sup2; tell you?</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 6 -->
   <div class="slide" id="slide-6">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 6 of 7 <span class="dot-sep"></span> Week 3</div>
-      <div class="stage-title">Reading R Code &amp; Working with Data Tools</div>
-      <div class="stage-desc">Harvard teaches you to read R syntax at a conceptual level &mdash; not write from scratch. Learn enough R to understand data team outputs, make informed requests, and interpret results.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 3</span>
-        <span class="chip">&#8987; ~4 hours</span>
-        <span class="chip">&#128187; Hands-on</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>6</span> Stage 6 of 7</div>
+      <div class="stage-headline">Reading R Code &amp; Working with Data Tools</div>
+      <div class="stage-body">Harvard teaches you to read R syntax at a conceptual level &mdash; not write from scratch. Learn enough R to understand data team outputs, make informed requests, and interpret results.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 3</span><span class="md-chip">&#8987; ~4 hours</span><span class="md-chip">&#128187; Hands-on</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> R for Non-Programmers</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> R for Non-Programmers</div>
           <div class="res-list">
             <a class="res-link" href="https://www.youtube.com/watch?v=_V8eKsto3Ug" target="_blank"><span class="badge b-vid">VIDEO</span> R Crash Course for Beginners</a>
             <a class="res-link" href="https://www.coursera.org/learn/r-programming" target="_blank"><span class="badge b-free">FREE</span> Coursera: R Programming (audit)</a>
@@ -715,7 +718,7 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#128295;</div> Run R in Browser</div>
+          <div class="res-head"><div class="res-ico">&#128295;</div> Run R in Browser</div>
           <div class="res-list">
             <a class="res-link" href="https://posit.cloud/" target="_blank"><span class="badge b-tool">TOOL</span> Posit Cloud (RStudio in browser)</a>
             <a class="res-link" href="https://www.kaggle.com/code" target="_blank"><span class="badge b-tool">TOOL</span> Kaggle Notebooks (R + Python free)</a>
@@ -723,30 +726,23 @@
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Open Posit Cloud (free). Run: <code style="background:var(--red-lt);color:var(--red);padding:1px 5px;border-radius:4px;font-size:12px">x &lt;- c(1,2,3,4,5); y &lt;- c(2,4,5,4,5); lm(y~x)</code>. Identify the intercept, slope, and what they mean in business terms.</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Open Posit Cloud (free). Run: <code style="background:var(--md-secondary-container);padding:1px 6px;border-radius:4px;font-size:12px">x &lt;- c(1,2,3,4,5); y &lt;- c(2,4,5,4,5); lm(y~x)</code>. Identify the intercept, slope, and what they mean in business terms.</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 7 -->
   <div class="slide" id="slide-7">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Stage 7 of 7 <span class="dot-sep"></span> Week 4</div>
-      <div class="stage-title">Machine Learning Concepts &amp; A/B Testing</div>
-      <div class="stage-desc">Conceptual overview of classification, clustering, and A/B testing &mdash; the tools business managers use to run experiments and make decisions at scale without a PhD in ML.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 4</span>
-        <span class="chip">&#8987; ~5 hours</span>
-        <span class="chip">&#128202; Applied</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>7</span> Stage 7 of 7</div>
+      <div class="stage-headline">Machine Learning Concepts &amp; A/B Testing</div>
+      <div class="stage-body">Conceptual overview of classification, clustering, and A/B testing &mdash; the tools business managers use to run experiments and make decisions at scale without a PhD in ML.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 4</span><span class="md-chip">&#8987; ~5 hours</span><span class="md-chip">&#128202; Applied</span></div>
       <div class="res-grid">
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#127916;</div> ML for Managers</div>
+          <div class="res-head"><div class="res-ico">&#127916;</div> ML for Managers</div>
           <div class="res-list">
             <a class="res-link" href="https://www.youtube.com/watch?v=Gv9_4yMHFhI" target="_blank"><span class="badge b-vid">VIDEO</span> Machine Learning for Everyone</a>
             <a class="res-link" href="https://www.youtube.com/watch?v=i_LwzRVP7bg" target="_blank"><span class="badge b-vid">VIDEO</span> StatQuest: Decision Trees Explained</a>
@@ -754,7 +750,7 @@
           </div>
         </div>
         <div class="res-card">
-          <div class="res-card-head"><div class="hico">&#129514;</div> A/B Testing</div>
+          <div class="res-head"><div class="res-ico">&#129514;</div> A/B Testing</div>
           <div class="res-list">
             <a class="res-link" href="https://hbr.org/2017/06/a-refresher-on-ab-testing" target="_blank"><span class="badge b-art">ARTICLE</span> HBR: A/B Testing Refresher &#11088;</a>
             <a class="res-link" href="https://www.udacity.com/course/ab-testing--ud257" target="_blank"><span class="badge b-free">FREE</span> Udacity: A/B Testing (free course)</a>
@@ -762,64 +758,28 @@
           </div>
         </div>
       </div>
-      <div class="practice">
-        <div class="practice-ico">&#9999;&#65039;</div>
-        <div>
-          <h4>Practice Task</h4>
-          <p>Design an A/B test for a product you know: define the hypothesis, choose the metric, determine sample size, and decide what a statistically significant result would change in your decision.</p>
-        </div>
+      <div class="practice-card">
+        <div class="practice-icon">&#9999;&#65039;</div>
+        <div><h4>Practice Task</h4><p>Design an A/B test for a product you know: define the hypothesis, choose the metric, determine sample size, and decide what a statistically significant result would change.</p></div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 8: CAPSTONE -->
   <div class="slide" id="slide-8">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Capstone Project <span class="dot-sep"></span> Week 4</div>
-      <div class="stage-title">Build a Real Data-Driven Business Case</div>
-      <div class="stage-desc">Apply everything you&rsquo;ve learned to a real dataset. Produce a 1-page recommendation as if presenting to a senior manager. This replaces Harvard&rsquo;s graded assignment.</div>
-      <div class="stage-chips">
-        <span class="chip">&#128197; Week 4</span>
-        <span class="chip">&#8987; ~5 hours</span>
-        <span class="chip">&#127937; Final</span>
-      </div>
+    <div class="stage">
+      <div class="stage-label"><span>&#9733;</span> Capstone Project</div>
+      <div class="stage-headline">Build a Real Data-Driven Business Case</div>
+      <div class="stage-body">Apply everything you&rsquo;ve learned to a real dataset. Produce a 1-page recommendation as if presenting to a senior manager. This replaces Harvard&rsquo;s graded assignment.</div>
+      <div class="chip-row"><span class="md-chip">&#128197; Week 4</span><span class="md-chip">&#8987; ~5 hours</span><span class="md-chip">&#127937; Final</span></div>
       <div class="cap-grid">
-        <div class="cap-card" data-n="01">
-          <h3>Pick a Dataset</h3>
-          <p>Choose a real business dataset &mdash; sales, marketing, HR, or finance.</p>
-          <div class="res-list">
-            <a class="res-link" href="https://www.kaggle.com/datasets" target="_blank"><span class="badge b-free">FREE</span> Kaggle Datasets</a>
-            <a class="res-link" href="https://data.worldbank.org/" target="_blank"><span class="badge b-free">FREE</span> World Bank Open Data</a>
-            <a class="res-link" href="https://datasetsearch.research.google.com/" target="_blank"><span class="badge b-free">FREE</span> Google Dataset Search</a>
-          </div>
-        </div>
-        <div class="cap-card" data-n="02">
-          <h3>Analyze It</h3>
-          <p>Run descriptive stats + at least one regression. Clean the data first.</p>
-          <div class="res-list">
-            <a class="res-link" href="https://posit.cloud/" target="_blank"><span class="badge b-tool">TOOL</span> Posit Cloud (RStudio)</a>
-            <a class="res-link" href="https://www.google.com/sheets/about/" target="_blank"><span class="badge b-tool">TOOL</span> Google Sheets</a>
-          </div>
-        </div>
-        <div class="cap-card" data-n="03">
-          <h3>Visualize</h3>
-          <p>Build at least 3 charts that tell a clear, compelling story.</p>
-          <div class="res-list">
-            <a class="res-link" href="https://public.tableau.com/" target="_blank"><span class="badge b-tool">TOOL</span> Tableau Public</a>
-            <a class="res-link" href="https://flourish.studio" target="_blank"><span class="badge b-tool">TOOL</span> Flourish</a>
-          </div>
-        </div>
-        <div class="cap-card" data-n="04">
-          <h3>Present &amp; Share</h3>
-          <p>Write a 1-page recommendation. Share on LinkedIn or GitHub.</p>
-          <div class="res-list">
-            <a class="res-link" href="https://www.canva.com/presentations/" target="_blank"><span class="badge b-tool">TOOL</span> Canva (free)</a>
-            <a class="res-link" href="https://github.com/" target="_blank"><span class="badge b-tool">TOOL</span> GitHub Portfolio</a>
-          </div>
-        </div>
+        <div class="cap-card"><div class="bg-num">01</div><h3>Pick a Dataset</h3><p>Choose a real business dataset &mdash; sales, marketing, HR, or finance.</p><div class="res-list"><a class="res-link" href="https://www.kaggle.com/datasets" target="_blank"><span class="badge b-free">FREE</span> Kaggle Datasets</a><a class="res-link" href="https://data.worldbank.org/" target="_blank"><span class="badge b-free">FREE</span> World Bank Open Data</a><a class="res-link" href="https://datasetsearch.research.google.com/" target="_blank"><span class="badge b-free">FREE</span> Google Dataset Search</a></div></div>
+        <div class="cap-card"><div class="bg-num">02</div><h3>Analyze It</h3><p>Run descriptive stats + at least one regression. Clean the data first.</p><div class="res-list"><a class="res-link" href="https://posit.cloud/" target="_blank"><span class="badge b-tool">TOOL</span> Posit Cloud (RStudio)</a><a class="res-link" href="https://www.google.com/sheets/about/" target="_blank"><span class="badge b-tool">TOOL</span> Google Sheets</a></div></div>
+        <div class="cap-card"><div class="bg-num">03</div><h3>Visualize</h3><p>Build at least 3 charts that tell a clear, compelling story.</p><div class="res-list"><a class="res-link" href="https://public.tableau.com/" target="_blank"><span class="badge b-tool">TOOL</span> Tableau Public</a><a class="res-link" href="https://flourish.studio" target="_blank"><span class="badge b-tool">TOOL</span> Flourish</a></div></div>
+        <div class="cap-card"><div class="bg-num">04</div><h3>Present &amp; Share</h3><p>Write a 1-page recommendation. Share on LinkedIn or GitHub.</p><div class="res-list"><a class="res-link" href="https://www.canva.com/presentations/" target="_blank"><span class="badge b-tool">TOOL</span> Canva (free)</a><a class="res-link" href="https://github.com/" target="_blank"><span class="badge b-tool">TOOL</span> GitHub Portfolio</a></div></div>
       </div>
-      <hr class="sep">
-      <div class="sec-label">&#128218; Recommended Books</div>
+      <hr class="md-divider">
+      <div class="section-title">&#128218; Recommended Books</div>
       <div class="res-grid">
         <div class="res-card">
           <div class="res-list">
@@ -835,13 +795,13 @@
 
   <!-- SLIDE 9: TRACKER -->
   <div class="slide" id="slide-9">
-    <div class="stage-wrap">
-      <div class="stage-eyebrow">Progress Tracker</div>
-      <div class="stage-title">Your Self-Study Checklist</div>
-      <div class="stage-desc">Check off items as you complete them. Progress is saved in your browser automatically.</div>
+    <div class="stage">
+      <div class="stage-label"><span>&#10003;</span> Progress Tracker</div>
+      <div class="stage-headline">Your Self-Study Checklist</div>
+      <div class="stage-body">Check off items as you complete them. Progress is saved in your browser automatically.</div>
       <div style="margin-top:28px">
-        <div class="prog-wrap"><div class="prog-bar" id="progressBar"></div></div>
-        <p class="prog-label" id="progressText"><strong>0 / 20</strong> completed &mdash; 0%</p>
+        <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+        <p class="progress-label" id="progressText"><strong>0 / 20</strong> completed &mdash; 0%</p>
         <div class="chk-list">
           <div class="chk-item"><input type="checkbox" id="c1" onchange="updateProgress()"><label for="c1">Watch &ldquo;What is Data Science?&rdquo; IBM video</label></div>
           <div class="chk-item"><input type="checkbox" id="c2" onchange="updateProgress()"><label for="c2">Read HBR: Data Scientist &mdash; Sexiest Job</label></div>
@@ -868,16 +828,16 @@
     </div>
   </div>
 
-</div><!-- /.slides-wrap -->
+</div>
 
-<!-- BOTTOM NAV -->
-<footer class="bottom-nav">
-  <button class="nav-btn" id="btnBack" onclick="prev()" disabled>&#9664; Back</button>
+<!-- MD3 BOTTOM NAVIGATION BAR -->
+<footer class="bottom-bar">
+  <button class="btn btn-outlined" id="btnBack" onclick="prev()" disabled>&#9664; Back</button>
   <div class="nav-center">
-    <button class="nav-btn play" id="btnPlay" onclick="togglePlay()">&#9654; Play All</button>
-    <div class="pdots" id="dots"></div>
+    <button class="btn btn-tonal" id="btnPlay" onclick="togglePlay()">&#9654; Play All</button>
+    <div class="page-dots" id="dots"></div>
   </div>
-  <button class="nav-btn primary" id="btnNext" onclick="next()">Next &#9654;</button>
+  <button class="btn btn-filled" id="btnNext" onclick="next()">Next &#9654;</button>
 </footer>
 
 <script>
@@ -886,12 +846,12 @@
 
   function goTo(n) {
     document.getElementById('slide-' + current).classList.remove('active');
-    document.querySelectorAll('.step-btn')[current].classList.remove('active');
+    document.querySelectorAll('.tab-btn')[current].classList.remove('active');
     current = n;
     document.getElementById('slide-' + current).classList.add('active');
-    const btns = document.querySelectorAll('.step-btn');
-    btns[current].classList.add('active');
-    btns[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs[current].classList.add('active');
+    tabs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     document.getElementById('slideLabel').textContent = current === 0 ? 'Overview' : current;
     document.getElementById('btnBack').disabled = current === 0;
     const nb = document.getElementById('btnNext');
@@ -921,11 +881,9 @@
   function buildDots() {
     const w = document.getElementById('dots');
     for (let i = 0; i <= TOTAL; i++) {
-      const d = document.createElement('div');
-      d.className = 'pdot'; d.onclick = () => goTo(i); w.appendChild(d);
+      const d = document.createElement('div'); d.className = 'pdot'; d.onclick = () => goTo(i); w.appendChild(d);
     }
   }
-
   function updateDots() {
     document.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
@@ -938,19 +896,16 @@
       const lbl = cb && cb.nextElementSibling;
       const row = cb && cb.closest('.chk-item');
       if (cb && cb.checked) {
-        done++;
-        lbl && lbl.classList.add('done');
-        row && row.classList.add('is-done');
+        done++; lbl && lbl.classList.add('done'); row && row.classList.add('is-done');
       } else {
-        lbl && lbl.classList.remove('done');
-        row && row.classList.remove('is-done');
+        lbl && lbl.classList.remove('done'); row && row.classList.remove('is-done');
       }
       localStorage.setItem('cb_' + i, cb && cb.checked ? '1' : '0');
     }
     const pct = Math.round((done / TC) * 100);
     document.getElementById('progressBar').style.width = pct + '%';
-    document.getElementById('progressText').innerHTML = '<strong>' + done + ' / ' + TC + '</strong> completed &mdash; ' + pct + '%';
-    document.querySelectorAll('.step-btn')[TOTAL].classList.toggle('done', done === TC);
+    document.getElementById('progressText').innerHTML = '<strong>' + done + ' / ' + TC + '</strong> completed \u2014 ' + pct + '%';
+    document.querySelectorAll('.tab-btn')[TOTAL].classList.toggle('done', done === TC);
   }
 
   window.addEventListener('DOMContentLoaded', () => {
